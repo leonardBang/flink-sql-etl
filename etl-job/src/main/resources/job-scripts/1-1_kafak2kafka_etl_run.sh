@@ -1,17 +1,27 @@
-# prepare kafka cluster
+# start kafka cluster
 cd /Users/bang/kafka_2.11-0.10.2.0
+./bin/zookeeper-server-start.sh -daemon ./config/zookeeper.properties
+./bin/kafka-server-start.sh -daemon ./config/server.properties
 
-# prepare hdfs
+# start hdfs
 cd /Users/bang/hadoop-2.8.5
+hadoop namenode -format
+cd /Users/bang/hadoop-2.8.5/sbin
+./start-dfs.sh
+./start-yarn.sh
 
-# prepare mysql
+# start mysql
 cd /usr/local/opt/mysql/bin/mysqld
 
-# prepare es
+# start es
 cd /Users/bang/elasticsearch-5.1.2
+./bin/elasticsearch
 
-# prepare hbase
+# start hbase
 cd /Users/bang/hbase-1.4.3
+./bin/start-hbase.sh
 
-# prepare data
+# start hive
+cd /Users/bang/apache-hive-3.1.2-bin
+
 
