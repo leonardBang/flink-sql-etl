@@ -3,6 +3,13 @@ cd /Users/bang/kafka_2.11-0.10.2.0
 ./bin/zookeeper-server-start.sh -daemon ./config/zookeeper.properties
 ./bin/kafka-server-start.sh -daemon ./config/server.properties
 
+## relate command
+cd ~/confluent-3.2.0/
+./bin/kafka-avro-console-producer --broker-list localhost:9092 --topic t1   --property value.schema='{"type":"record","name":"myrecord","fields":[{"name":"f1","type":"string"}]}'
+cd kafka_2.11-0.10.2.0
+./bin/kafka-topics.sh --list --zookeeper localhost:2181
+./bin/kafka-console-consumer.sh --topic csv_data --bootstrap-server localhost:9092 --from-beginning
+
 # start hdfs
 cd /Users/bang/hadoop-2.8.5
 hadoop namenode -format

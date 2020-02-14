@@ -16,63 +16,87 @@ public class KafkaCsv2Kafka {
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
 
-        tableEnvironment.sqlUpdate("CREATE TABLE WikipediaFeed (\n" +
-                "  `user` STRING,\n" +
-                "  is_new    BOOLEAN,\n" +
-                "  content STRING" +
-                ") WITH (\n" +
-                "  'connector.type' = 'kafka',\n" +
-                "  'connector.version' = '0.10',\n" +
-                "  'connector.topic' = 'WikipediaFeed',\n" +
-                "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
-                "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "  'connector.properties.group.id' = 'testGroup3',\n" +
-                "  'connector.startup-mode' = 'earliest-offset',\n" +
-                "  'format.type' = 'avro',\n" +
-                "  'format.avro-schema' =\n" +
-                "    '{ \n" +
-                "    \"type\": \"record\",\n" +
-                "    \"name\": \"UserAvro\",\n" +
-                "    \"fields\": [\n" +
-                "      {\"name\": \"user\", \"type\": \"string\"},\n" +
-                "      {\"name\": \"is_new\", \"type\": \"boolean\"},\n" +
-                "      {\"name\": \"content\", \"type\": [\"string\", \"null\"]}\n" +
-                "      ]\n" +
-                "    }'" +
-                ")\n");
+//        flinkFileCsv2KafkaCsv(tableEnvironment);
+        flinkKafkaCsv2Csv(tableEnvironment);
+    }
 
-        String sinkTableDDL = "CREATE TABLE WikipediaFeed_filtered (\n" +
-                "  `user` STRING,\n" +
+    public static void flinkFileCsv2KafkaCsv(StreamTableEnvironment tableEnvironment) throws Exception{
+        String csvSourceDDL = "create table csv(" +
+                " user_name VARCHAR," +
+                " is_new BOOLEAN," +
+                " content VARCHAR" +
+                ") with (" +
+                " 'connector.type' = 'filesystem',\n" +
+                " 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',\n" +
+                " 'format.type' = 'csv',\n" +
+                " 'format.fields.0.name' = 'user_name',\n" +
+                " 'format.fields.0.data-type' = 'STRING',\n" +
+                " 'format.fields.1.name' = 'is_new',\n" +
+                " 'format.fields.1.data-type' = 'BOOLEAN',\n" +
+                " 'format.fields.2.name' = 'content',\n" +
+                " 'format.fields.2.data-type' = 'STRING')";
+        tableEnvironment.sqlUpdate(csvSourceDDL);
+
+        String sinkTableDDL = "CREATE TABLE csvData (\n" +
+                "  user_name STRING,\n" +
                 "  is_new    BOOLEAN,\n" +
                 "  content STRING" +
                 ") WITH (\n" +
                 "  'connector.type' = 'kafka',\n" +
                 "  'connector.version' = '0.10',\n" +
-                "  'connector.topic' = 'WikipediaFeed_filtered',\n" +
+                "  'connector.topic' = 'csv_data',\n" +
                 "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
                 "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
                 "  'connector.properties.group.id' = 'testGroup3',\n" +
                 "  'connector.startup-mode' = 'earliest-offset',\n" +
-                "  'format.type' = 'avro',\n" +
-                "  'format.avro-schema' =\n" +
-                "    '{ \n" +
-                "    \"type\": \"record\",\n" +
-                "    \"name\": \"UserAvro\",\n" +
-                "    \"fields\": [\n" +
-                "      {\"name\": \"user\", \"type\": \"string\"},\n" +
-                "      {\"name\": \"is_new\", \"type\": \"boolean\"},\n" +
-                "      {\"name\": \"content\", \"type\": [\"string\", \"null\"]}\n" +
-                "      ]\n" +
-                "    }'" +
-                ")\n";
+                "  'format.type' = 'csv')";
         tableEnvironment.sqlUpdate(sinkTableDDL);
 
-        String querySQL = "insert into WikipediaFeed_filtered \n" +
-                "select `user`, is_new, content \n" +
-                "from WikipediaFeed\n" +
-                "where `user` in ('phil', 'damian', 'lauren')\n" ;
+        String querySql = "insert into csvData \n" +
+                "select user_name, is_new, content from\n" +
+                "csv";
+        tableEnvironment.sqlUpdate(querySql);
 
-        tableEnvironment.sqlUpdate(querySQL);
-        tableEnvironment.execute("KafkaCsv2Kafka");
+        tableEnvironment.execute("flinkFileCsv2KafkaCsv");
     }
+
+    public static void flinkKafkaCsv2Csv(StreamTableEnvironment tableEnvironment) throws Exception {
+        String soureTableDDL = "CREATE TABLE csvData (\n" +
+                "  user_name STRING,\n" +
+                "  is_new    BOOLEAN,\n" +
+                "  content STRING" +
+                ") WITH (\n" +
+                "  'connector.type' = 'kafka',\n" +
+                "  'connector.version' = '0.10',\n" +
+                "  'connector.topic' = 'csv_data',\n" +
+                "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
+                "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
+                "  'connector.properties.group.id' = 'testGroup4',\n" +
+                "  'connector.startup-mode' = 'earliest-offset',\n" +
+                "  'format.type' = 'csv')";
+        tableEnvironment.sqlUpdate(soureTableDDL);
+        String csvSinkDDL = "create table csv(" +
+                " user_name VARCHAR," +
+                " is_new BOOLEAN," +
+                " content VARCHAR" +
+                ") with (" +
+                " 'connector.type' = 'filesystem',\n" +
+                " 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user2.csv',\n" +
+                " 'format.type' = 'csv',\n" +
+                " 'update-mode' = 'append', \n" +
+                " 'format.fields.0.name' = 'user_name',\n" +
+                " 'format.fields.0.data-type' = 'STRING',\n" +
+                " 'format.fields.1.name' = 'is_new',\n" +
+                " 'format.fields.1.data-type' = 'BOOLEAN',\n" +
+                " 'format.fields.2.name' = 'content',\n" +
+                " 'format.fields.2.data-type' = 'STRING')";
+        tableEnvironment.sqlUpdate(csvSinkDDL);
+
+        String querySql = "insert into csv select user_name, is_new, content from csvData";
+
+        tableEnvironment.sqlUpdate(querySql);
+        tableEnvironment.execute("flinkKafkaCsv2Csv");
+    }
+
+
 }
