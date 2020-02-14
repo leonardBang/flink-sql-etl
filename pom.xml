@@ -16,6 +16,12 @@
         <scala.binary.version>2.11</scala.binary.version>
         <flink.version>1.11-SNAPSHOT</flink.version>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.12.2</version>
+        </dependency>
+    </dependencies>
 
 </project>

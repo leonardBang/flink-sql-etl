@@ -4,7 +4,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 
-public class Kafka2KafkaJob {
+public class KafkaJson2KafkaJob {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -20,7 +20,7 @@ public class Kafka2KafkaJob {
                 "  order_id STRING,\n" +
                 "  item    STRING,\n" +
                 "  currency STRING,\n" +
-                "  amount INT,\n" +
+                "  amount DOUBLE,\n" +
                 "  order_time TIMESTAMP(3),\n" +
                 "  proc_time as PROCTIME(),\n" +
                 "  amount_kg as amount * 1000,\n" +

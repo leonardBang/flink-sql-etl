@@ -6,7 +6,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 
-public class KafkaSender {
+public class KafkaGenerator {
     public static void main(String[] args) throws JsonProcessingException, InterruptedException {
         Properties kafkaProperties = new Properties();
         kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -35,7 +35,7 @@ public class KafkaSender {
             @Override
             public void run() {
                 try {
-                    OrderSender.sendMessage(kafkaProperties,  3);
+                    JsonOrderSender.sendMessage(kafkaProperties,  3);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

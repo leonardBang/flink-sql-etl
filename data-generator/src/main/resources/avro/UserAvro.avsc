@@ -1,0 +1,9 @@
+{"namespace": "kafka",
+ "type": "record",
+ "name": "UserAvro",
+ "fields": [
+     {"name": "user_name", "type": "string"},
+     {"name": "is_new", "type": "boolean"},
+     {"name": "content", "type": "string"}
+ ]
+}

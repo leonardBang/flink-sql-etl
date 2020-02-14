@@ -15,10 +15,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Random;
 
-public class CurrencySender {
-    private static final Logger logger = LoggerFactory.getLogger(CurrencySender.class);
+public class JsonCurrencySender {
+    private static final Logger logger = LoggerFactory.getLogger(JsonCurrencySender.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final SendCallBack sendCallBack = new SendCallBack();
     private static final String topicName = "flink_currency1";

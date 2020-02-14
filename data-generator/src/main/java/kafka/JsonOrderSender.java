@@ -19,12 +19,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
-public class OrderSender {
-    private static final Logger logger = LoggerFactory.getLogger(CurrencySender.class);
+public class JsonOrderSender {
+    private static final Logger logger = LoggerFactory.getLogger(JsonCurrencySender.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Random random = new Random();
     private static final SendCallBack sendCallBack = new SendCallBack();
-    private static final String topicName = "flink_orders3";
+    private static final String topicName = "flink_orders";
     private static final List<String> currencies = initCurrencies();
     private static final List<String> itemNames = initItemNames();
 
