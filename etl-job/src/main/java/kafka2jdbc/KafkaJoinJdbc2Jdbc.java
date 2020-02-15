@@ -1,4 +1,4 @@
-package kafka2jdbc_3;
+package kafka2jdbc;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;

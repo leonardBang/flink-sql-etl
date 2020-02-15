@@ -1,4 +1,4 @@
-package kafka2file_2;
+package kafka2file;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;

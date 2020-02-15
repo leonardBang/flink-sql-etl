@@ -1,4 +1,4 @@
-package kafka2hbase_5;
+package kafka2hbase;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;

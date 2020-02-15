@@ -1,4 +1,4 @@
-package kafka2hbase_5;
+package kafka2hbase;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;

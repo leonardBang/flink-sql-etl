@@ -1,4 +1,4 @@
-package kafka2kafka_1;
+package kafka2kafka;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

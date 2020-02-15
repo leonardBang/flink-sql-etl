@@ -1,4 +1,4 @@
-package kafka2file_2;
+package kafka2file;
 
 import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;

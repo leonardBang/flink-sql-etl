@@ -1,12 +1,16 @@
-package kafka2jdbc_3;
+package kafka2jdbc;
 
+import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
+import org.apache.flink.table.functions.ScalarFunction;
+import org.apache.flink.types.Row;
 
 import constants.FlinkSqlConstants;
 
-public class KafkaJoinJdbc2JdbcProc {
+public class UnboundedKafkaJoinJdbc2Jdbc {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -16,6 +20,8 @@ public class KafkaJoinJdbc2JdbcProc {
                 .inStreamingMode()
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
+
+        tableEnvironment.registerFunction("add_one_fun", new AddOneFunc());
 
         tableEnvironment.sqlUpdate(FlinkSqlConstants.ordersTableDDL);
         tableEnvironment.sqlUpdate(FlinkSqlConstants.mysqlCurrencyDDL);
@@ -28,8 +34,8 @@ public class KafkaJoinJdbc2JdbcProc {
                 "  gmv DECIMAL(38, 18)," +
                 "  timestamp9 TIMESTAMP(3),\n" +
                 "  time9 TIME(3),\n" +
-                "  gdp DECIMAL(38, 18)\n" +
-                ") WITH (\n" +
+                "  gdp DECIMAL(38, 10)\n" +
+                 ") WITH (\n" +
                 "   'connector.type' = 'jdbc',\n" +
                 "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
                 "   'connector.username' = 'root'," +
@@ -41,18 +47,32 @@ public class KafkaJoinJdbc2JdbcProc {
                 ")";
         tableEnvironment.sqlUpdate(sinkTableDDL);
 
-        String querySQL = "insert into gmv \n" +
-                "select cast(TUMBLE_END(o.proc_time, INTERVAL '10' SECOND) as VARCHAR) as log_ts,\n" +
-                " o.item, COUNT(o.order_id) as order_cnt, c.currency_time, cast(sum(o.amount_kg) * c.rate as DECIMAL(38, 4))  as gmv,\n" +
-                " c.timestamp9, c.time9, c.gdp\n" +
-                "from orders as o \n" +
-                "join currency FOR SYSTEM_TIME AS OF o.proc_time c\n" +
-                "on o.currency = c.currency_name\n" +
-                "group by o.item, c.currency_time, c.rate, c.timestamp9, c.time9, c.gdp, TUMBLE(o.proc_time, INTERVAL '10' SECOND)\n" ;
+        String querySQL = " \n" +
+                "select max(log_ts),\n" +
+                " item, COUNT(order_id) as order_cnt, max(currency_time), cast(sum(amount_kg) * max(rate) as DECIMAL(38, 4))  as gmv,\n" +
+                " max(timestamp9), max(time9), max(gdp) \n" +
+                " from ( \n" +
+                " select cast(o.ts as VARCHAR) as log_ts, o.item as item, o.order_id as order_id, c.currency_time as currency_time,\n" +
+                " o.amount_kg as amount_kg, c.rate as rate, c.timestamp9 as timestamp9, c.time9 as time9, c.gdp as gdp \n" +
+                " from orders as o \n" +
+                " join currency FOR SYSTEM_TIME AS OF o.proc_time c \n" +
+                " on o.currency = c.currency_name \n" +
+                " ) a group by item\n" ;
 
-        tableEnvironment.sqlUpdate(querySQL);
+        tableEnvironment.toRetractStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
+
+//        tableEnvironment.sqlUpdate(querySQL);
 
         tableEnvironment.execute("KafkaJoinJdbc2Jdbc");
     }
 
+    public static class AddOneFunc extends ScalarFunction {
+        public Long eval(long t) {
+             return t + 1;
+        }
+
+        public TypeInformation<?> getResultType(Class<?>[] signature) {
+            return Types.LONG;
+        }
+    }
 }

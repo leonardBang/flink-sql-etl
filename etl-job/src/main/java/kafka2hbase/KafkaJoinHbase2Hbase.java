@@ -1,4 +1,4 @@
-package kafka2hbase_5;
+package kafka2hbase;
 
 import org.apache.flink.api.common.typeinfo.BasicTypeInfo;
 import org.apache.flink.api.common.typeinfo.TypeInformation;

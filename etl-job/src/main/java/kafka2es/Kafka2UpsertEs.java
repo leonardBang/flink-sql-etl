@@ -1,4 +1,4 @@
-package kafka2es_4;
+package kafka2es;
 
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -9,7 +9,7 @@ import org.apache.flink.table.functions.ScalarFunction;
 
 import java.sql.Timestamp;
 
-public class KafkaGroupBy2Es {
+public class Kafka2UpsertEs {
     private static String csvSourceDDL = "create table csv(" +
             " pageId VARCHAR," +
             " eventId VARCHAR," +
@@ -42,6 +42,23 @@ public class KafkaGroupBy2Es {
             "'connector.bulk-flush.interval' = '1000',\n" +
             "'format.type' = 'json'\n" +
             ")\n";
+    private static String query = "INSERT INTO ES6_ZHANGLE_OUTPUT\n" +
+            "  SELECT aggId, pageId, ts,\n" +
+            "  count(case when eventId = 'exposure' then 1 else null end) as expoCnt,\n" +
+            "  count(case when eventId = 'click' then 1 else null end) as clkCnt\n" +
+            "  FROM\n" +
+            "  (\n" +
+            "    SELECT\n" +
+            "        'ZL_001' as aggId,\n" +
+            "        pageId,\n" +
+            "        eventId,\n" +
+            "        recvTime,\n" +
+            "        ts2Date(recvTime) as ts\n" +
+            "    from csv\n" +
+            "    where eventId in ('exposure', 'click')\n" +
+            "  ) as t1\n" +
+            "  group by aggId, pageId, ts";
+
     private static String sinkBlinkDDL = "CREATE TABLE ES6_ZHANGLE_OUTPUT (\n" +
             "  aggId varchar ,\n" +
             "  pageId varchar ,\n" +
@@ -60,25 +77,13 @@ public class KafkaGroupBy2Es {
             "'connector.bulk-flush.interval' = '1000',\n" +
             "'format.type' = 'json'\n" +
             ")\n";
-    private static String query = "INSERT INTO ES6_ZHANGLE_OUTPUT\n" +
-            "  SELECT aggId, pageId, ts,\n" +
-            "  count(case when eventId = 'exposure' then 1 else null end) as expoCnt,\n" +
-            "  count(case when eventId = 'click' then 1 else null end) as clkCnt\n" +
-            "  FROM\n" +
-            "  (\n" +
-            "    SELECT\n" +
-            "        'ZL_001' as aggId,\n" +
-            "        pageId,\n" +
-            "        eventId,\n" +
-            "        recvTime,\n" +
-            "        ts2Date(recvTime) as ts\n" +
-            "    from csv\n" +
-            "    where eventId in ('exposure', 'click')\n" +
-            "  ) as t1\n" +
-            "  group by aggId, pageId, ts";
 
     public static void main(String[] args) throws Exception {
-        testBlinkPlanner();
+        // legacy planner test passed
+         testLegacyPlanner();
+
+        // blink planner test failed
+//        testBlinkPlanner();
     }
 
     public static void testLegacyPlanner() throws Exception {
