@@ -21,8 +21,11 @@ cd /Users/bang/hadoop-2.8.5/sbin
 cd /usr/local/opt/mysql/bin/mysqld
 
 # start es
-cd /Users/bang/elasticsearch-5.1.2
+cd /Users/bang/elasticsearch-6.3.1
 ./bin/elasticsearch
+## es cli：
+./bin/elasticsearch-sql-cli
+
 
 # start hbase
 cd /Users/bang/hbase-1.4.3

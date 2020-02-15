@@ -31,6 +31,11 @@
             <version>${flink.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <!-- kafka connector -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
@@ -78,6 +83,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.48</version>
         </dependency>
+        <!--   elasticsearch connector     -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <!--   hbase connector     -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -101,22 +112,6 @@
             <version>5.3.0</version>
             <scope>compile</scope>
         </dependency>
-        <!-- es connector -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.flink</groupId>-->
-        <!--            <artifactId>flink-connector-elasticsearch-base_${scala.binary.version}</artifactId>-->
-        <!--            <version>${flink.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.flink</groupId>-->
-        <!--            <artifactId>flink-connector-elasticsearch5_${scala.binary.version}</artifactId>-->
-        <!--            <version>${flink.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.flink</groupId>-->
-        <!--            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>-->
-        <!--            <version>${flink.version}</version>-->
-        <!--        </dependency>-->
     </dependencies>
     <repositories>
         <repository>
