@@ -42,7 +42,7 @@ public class Kafka2UpsertEs {
             "'connector.bulk-flush.interval' = '1000',\n" +
             "'format.type' = 'json'\n" +
             ")\n";
-    private static String query = "INSERT INTO ES6_ZHANGLE_OUTPUT\n" +
+    private static String query = "INSERT INTO test_upsert\n" +
             "  SELECT aggId, pageId, ts,\n" +
             "  count(case when eventId = 'exposure' then 1 else null end) as expoCnt,\n" +
             "  count(case when eventId = 'click' then 1 else null end) as clkCnt\n" +
@@ -77,13 +77,29 @@ public class Kafka2UpsertEs {
             "'connector.bulk-flush.interval' = '1000',\n" +
             "'format.type' = 'json'\n" +
             ")\n";
+    private static String sinkMysqlDDL =  "CREATE TABLE test_upsert (\n" +
+            "  aggId STRING ,\n" +
+            "  pageId STRING ,\n" +
+            "  ts STRING ,\n" +
+            "  expoCnt BIGINT ,\n" +
+            "  clkCnt BIGINT\n" +
+            ") WITH (\n" +
+            "   'connector.type' = 'jdbc',\n" +
+            "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
+            "   'connector.username' = 'root'," +
+            "   'connector.table' = 'test_upsert',\n" +
+            "   'connector.driver' = 'com.mysql.jdbc.Driver',\n" +
+            "   'connector.write.flush.max-rows' = '5000', \n" +
+            "   'connector.write.flush.interval' = '2s', \n" +
+            "   'connector.write.max-retries' = '3'" +
+            ")";
 
     public static void main(String[] args) throws Exception {
         // legacy planner test passed
-         testLegacyPlanner();
+//         testLegacyPlanner();
 
         // blink planner test failed
-//        testBlinkPlanner();
+        testBlinkPlanner();
     }
 
     public static void testLegacyPlanner() throws Exception {
@@ -113,7 +129,25 @@ public class Kafka2UpsertEs {
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
         tableEnvironment.registerFunction("ts2Date", new ts2Date());
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        tableEnvironment.sqlUpdate(sinkBlinkDDL);
+        tableEnvironment.sqlUpdate(sinkMysqlDDL);
+
+        String queryTest =  "  SELECT aggId, pageId, ts,\n" +
+                "  count(case when eventId = 'exposure' then 1 else null end) as expoCnt,\n" +
+                "  count(case when eventId = 'click' then 1 else null end) as clkCnt\n" +
+                "  FROM\n" +
+                "  (\n" +
+                "    SELECT\n" +
+                "        'ZL_001' as aggId,\n" +
+                "        pageId,\n" +
+                "        eventId,\n" +
+                "        recvTime,\n" +
+                "        ts2Date(recvTime) as ts\n" +
+                "    from csv\n" +
+                "    where eventId in ('exposure', 'click')\n" +
+                "  ) as t1\n" +
+                "  group by aggId, pageId, ts";;
+         System.out.println(tableEnvironment.explain(tableEnvironment.sqlQuery(queryTest)));
+
         tableEnvironment.sqlUpdate(query);
 
         tableEnvironment.execute("Kafka2Es");
