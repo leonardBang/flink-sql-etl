@@ -14,7 +14,7 @@
     </modules>
     <properties>
         <scala.binary.version>2.11</scala.binary.version>
-        <flink.version>1.10.0</flink.version>
+        <flink.version>1.11-SNAPSHOT</flink.version>
     </properties>
     <dependencies>
         <dependency>

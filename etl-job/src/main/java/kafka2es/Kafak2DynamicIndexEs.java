@@ -68,7 +68,7 @@ public class Kafak2DynamicIndexEs {
                         json.put("content", element.getField(2).toString());
 
                         return Requests.indexRequest()
-                                .index(element.getField(0).toString())
+                                .index("{"+element.getField(0).toString()+ "}" + "-index")
                                 .type("my-type")
                                 .source(json);
                     }
@@ -92,8 +92,7 @@ public class Kafak2DynamicIndexEs {
 
                             // elasticsearch username and password
                             CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-//                            credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("$USERNAME", "$PASSWORD"));
-
+//                          credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("$USERNAME", "$PASSWORD"));
                             return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
                         }
                     });

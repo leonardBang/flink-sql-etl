@@ -12,11 +12,12 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class TestHbase {
     public static void main(String[] args) throws Exception {
-         //beforTest();
+         beforTest();
 //        test();
     }
 
     private static void beforTest() throws Exception {
+        // create 'country','f1','f2'
         Configuration config = HBaseConfiguration.create();
         config.set(HConstants.ZOOKEEPER_QUORUM, "localhost");
         config.set(HConstants.ZOOKEEPER_CLIENT_PORT, "2182");
@@ -76,6 +77,8 @@ public class TestHbase {
         table.put(put2);
         table.put(put3);
         table.put(put4);
+        table.close();
+        //get 'country','America'
     }
 
     public static void test() throws Exception {

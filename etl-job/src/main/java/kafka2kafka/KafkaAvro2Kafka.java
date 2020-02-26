@@ -17,9 +17,9 @@ public class KafkaAvro2Kafka {
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
 
         // step 1, should note step 2 when call
-        //        flinkCsv2Avro(tableEnvironment);
+//                flinkCsv2Avro(tableEnvironment);
 
-        // step 2, should note step step 1 when call
+        // step 2, should note step 1 when call
         flinkAvro2Avro(tableEnvironment);
 
     }
@@ -63,6 +63,23 @@ public class KafkaAvro2Kafka {
     }
 
     private static void flinkAvro2Avro(StreamTableEnvironment tableEnvironment) throws Exception{
+
+        tableEnvironment.sqlUpdate("CREATE TABLE AvroTest (\n" +
+                "  user_name VARCHAR,\n" +
+                "  is_new BOOLEAN,\n" +
+                "  content VARCHAR" +
+                ") WITH (\n" +
+                "  'connector.type' = 'kafka',\n" +
+                "  'connector.version' = '0.10',\n" +
+                "  'connector.topic' = 'avro_from_csv',\n" +
+                "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
+                "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
+                "  'connector.properties.group.id' = 'testGroup4',\n" +
+                "  'connector.startup-mode' = 'earliest-offset',\n" +
+                "  'format.type' = 'avro',\n" +
+                "  'format.record-class' = 'kafka.UserAvro'\n" +
+                ")\n");
+
         String sinkTableDDL = "CREATE TABLE WikipediaFeed_filtered (\n" +
                 "  user_name STRING,\n" +
                 "  is_new    BOOLEAN,\n" +

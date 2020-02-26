@@ -51,8 +51,8 @@ public class Kafka2AppendEs {
 //         testLegacyPlanner();
 
         // blink planner test failed
-//        testBlinkPlanner();
-        System.out.println(sinkDDL);
+        testBlinkPlanner();
+//        System.out.println(sinkDDL);
     }
 
     public static void testLegacyPlanner() throws Exception {

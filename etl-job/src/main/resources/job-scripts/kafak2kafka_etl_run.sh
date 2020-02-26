@@ -30,6 +30,9 @@ cd /Users/bang/elasticsearch-6.3.1
 # start hbase
 cd /Users/bang/hbase-1.4.3
 ./bin/start-hbase.sh
+## use own zookeeper wich client port is setted 2182 to avoid conficts with Kafka zookeeper
+## : ./bin/hbase shell
+## list; create 't1','f1';
 
 # start hive
 cd /Users/bang/apache-hive-3.1.2-bin
