@@ -24,7 +24,7 @@ public class JsonOrderSender {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Random random = new Random();
     private static final SendCallBack sendCallBack = new SendCallBack();
-    private static final String topicName = "flink_orders3";
+    private static final String topicName = "flink_orders2";
     private static final List<String> currencies = initCurrencies();
     private static final List<String> itemNames = initItemNames();
 
@@ -36,7 +36,7 @@ public class JsonOrderSender {
             for (int j = 0; j < currencies.size(); j++) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("order_id", System.currentTimeMillis() + "_" + random.nextInt());
-                map.put("item", itemNames.get(j % itemNames.size()));
+                map.put("item", itemNames.get(random.nextInt(itemNames.size())  % itemNames.size()));
                 map.put("currency", currencies.get(j % currencies.size()));
                 map.put("amount", j % 100 / 100.0);
                 Long time = System.currentTimeMillis();
@@ -81,16 +81,18 @@ public class JsonOrderSender {
         currencies.add("US Dollar");
         currencies.add("Euro");
         currencies.add("Yen");
+        currencies.add("人民币");
         return currencies;
     }
 
     private static List<String> initItemNames() {
         final List<String> itermNames = new ArrayList<>();
         itermNames.add("Apple");
-        itermNames.add("Orange");
+        itermNames.add("橘子");
         itermNames.add("Paper");
-        itermNames.add("Milk");
-        itermNames.add("Yogurt");
+        itermNames.add("牛奶");
+        itermNames.add("酸奶");
+        itermNames.add("豆腐");
         return itermNames;
     }
 }

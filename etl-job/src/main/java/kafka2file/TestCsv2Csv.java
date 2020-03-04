@@ -36,8 +36,6 @@ public class TestCsv2Csv {
                 " 'format.fields.3.data-type' = 'TIMESTAMP(4)'," +
                 " 'format.fields.4.name' = 'doub_val',\n" +
                 " 'format.fields.4.data-type' = 'DECIMAL(6, 2)'" +
-//                ",\n" +
-//                " 'format.null-literal' = ''\n" +
                 ")";
         tableEnvironment.sqlUpdate(csvSourceDDL);
         tableEnvironment.toAppendStream(tableEnvironment.sqlQuery("select * from csv"), Row.class).print();

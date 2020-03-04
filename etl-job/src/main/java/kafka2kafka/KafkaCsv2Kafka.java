@@ -56,7 +56,9 @@ public class KafkaCsv2Kafka {
                 "select user_name, is_new, content from\n" +
                 "csv";
         tableEnvironment.sqlUpdate(querySql);
-
+        System.out.println(csvSourceDDL);
+        System.out.println(sinkTableDDL);
+        System.out.println(querySql);
         tableEnvironment.execute("flinkFileCsv2KafkaCsv");
     }
 
@@ -95,6 +97,9 @@ public class KafkaCsv2Kafka {
         String querySql = "insert into csv select user_name, is_new, content from csvData";
 
         tableEnvironment.sqlUpdate(querySql);
+        System.out.println(soureTableDDL);
+        System.out.println(csvSinkDDL);
+        System.out.println(querySql);
         tableEnvironment.execute("flinkKafkaCsv2Csv");
     }
 

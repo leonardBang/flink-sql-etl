@@ -34,7 +34,7 @@ public class UnboundedKafkaJoinJdbc2Jdbc {
                 "  gmv DECIMAL(38, 18)," +
                 "  timestamp9 TIMESTAMP(3),\n" +
                 "  time9 TIME(3),\n" +
-                "  gdp DECIMAL(38, 10)\n" +
+                "  gdp  DECIMAL(38, 18)\n" +
                  ") WITH (\n" +
                 "   'connector.type' = 'jdbc',\n" +
                 "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
@@ -47,9 +47,9 @@ public class UnboundedKafkaJoinJdbc2Jdbc {
                 ")";
         tableEnvironment.sqlUpdate(sinkTableDDL);
 
-        String querySQL = " \n" +
+        String querySQL = "insert into gmv \n" +
                 "select max(log_ts),\n" +
-                " item, COUNT(order_id) as order_cnt, max(currency_time), cast(sum(amount_kg) * max(rate) as DECIMAL(38, 4))  as gmv,\n" +
+                " item, COUNT(order_id) as order_cnt, max(currency_time), cast(sum(amount_kg) * max(rate) as DOUBLE)  as gmv,\n" +
                 " max(timestamp9), max(time9), max(gdp) \n" +
                 " from ( \n" +
                 " select cast(o.ts as VARCHAR) as log_ts, o.item as item, o.order_id as order_id, c.currency_time as currency_time,\n" +
@@ -59,10 +59,12 @@ public class UnboundedKafkaJoinJdbc2Jdbc {
                 " on o.currency = c.currency_name \n" +
                 " ) a group by item\n" ;
 
-        tableEnvironment.toRetractStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
-
-//        tableEnvironment.sqlUpdate(querySQL);
-
+        System.out.println(FlinkSqlConstants.ordersTableDDL);
+        System.out.println(FlinkSqlConstants.mysqlCurrencyDDL);
+        System.out.println(sinkTableDDL);
+        System.out.println(querySQL);
+//        tableEnvironment.toRetractStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
+        tableEnvironment.sqlUpdate(querySQL);
         tableEnvironment.execute("KafkaJoinJdbc2Jdbc");
     }
 

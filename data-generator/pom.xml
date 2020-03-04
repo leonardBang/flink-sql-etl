@@ -34,19 +34,7 @@
 
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>confluent</id>
-            <url>https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer</url>
-        </repository>
-        <repository>
-            <id>confluent1</id>
-            <url>http://packages.confluent.io/maven/</url>
-        </repository>
-    </repositories>
-
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.avro</groupId>

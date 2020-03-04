@@ -3,8 +3,9 @@ package kafka2kafka;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
 
-public class KafkaJson2KafkaJob {
+public class KafkaJson2Kafka {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -16,7 +17,7 @@ public class KafkaJson2KafkaJob {
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
 
-        tableEnvironment.sqlUpdate("CREATE TABLE orders (\n" +
+        String sourceTableDDL = "CREATE TABLE orders (\n" +
                 "  order_id STRING,\n" +
                 "  item    STRING,\n" +
                 "  currency STRING,\n" +
@@ -36,7 +37,8 @@ public class KafkaJson2KafkaJob {
                 "  'connector.startup-mode' = 'earliest-offset',\n" +
                 "  'format.type' = 'json',\n" +
                 "  'format.derive-schema' = 'true'\n" +
-                ")\n");
+                ")\n";
+        tableEnvironment.sqlUpdate(sourceTableDDL);
 
         String sinkTableDDL = "CREATE TABLE order_cnt (\n" +
                 "  log_per_min TIMESTAMP(3),\n" +
@@ -55,13 +57,21 @@ public class KafkaJson2KafkaJob {
                 ")";
         tableEnvironment.sqlUpdate(sinkTableDDL);
 
-        String querySQL = "insert into order_cnt \n" +
-                "select TUMBLE_END(ts, INTERVAL '10' SECOND),\n" +
-                " item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality\n" +
-                "from orders\n" +
-                "group by item, TUMBLE(ts, INTERVAL '10' SECOND)\n" ;
+//        String querySQL = "insert into order_cnt \n" +
+//                "select TUMBLE_END(ts, INTERVAL '10' SECOND),\n" +
+//                " item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality\n" +
+//                "from orders\n" +
+//                "group by item, TUMBLE(ts, INTERVAL '10' SECOND)\n" ;
+        String querySQL = "select * from orders";
 
-        tableEnvironment.sqlUpdate(querySQL);
+
+        System.out.println(sourceTableDDL);
+        System.out.println(sinkTableDDL);
+        System.out.println(querySQL);
+
+        tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
         tableEnvironment.execute("StreamKafka2KafkaJob");
+
+
     }
 }

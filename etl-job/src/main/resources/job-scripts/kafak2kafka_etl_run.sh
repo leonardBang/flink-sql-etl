@@ -35,6 +35,13 @@ cd /Users/bang/hbase-1.4.3
 ## list; create 't1','f1';
 
 # start hive
-cd /Users/bang/apache-hive-3.1.2-bin
+## start haoop first
+./start-dfs.sh
+./start-yarn.sh
+## start mysql(metastore)
+cd /Users/bang/hive-3.1.2
+## init hive schema
+bin/schematool -initSchema -dbType mysql
+bin/hive
 
 

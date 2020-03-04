@@ -14,7 +14,7 @@ public class FlinkSqlConstants {
             ") WITH (\n" +
             "  'connector.type' = 'kafka',\n" +
             "  'connector.version' = '0.10',\n" +
-            "  'connector.topic' = 'flink_orders3',\n" +
+            "  'connector.topic' = 'flink_orders2',\n" +
             "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
             "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
             "  'connector.properties.group.id' = 'testGroup3',\n" +

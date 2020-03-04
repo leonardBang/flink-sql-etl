@@ -69,7 +69,7 @@ public class KafkaJoinJdbc2Kafka {
 //        tableEnvironment.sqlUpdate(querySQL);
 
         tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(sql1), Row.class).print();
-        tableEnvironment.execute("KafkaJoinJdbc2Kafka");
+        tableEnvironment.execute("KafkaJoinJdbc2Kafka.sql");
     }
 
     public static class Func extends ScalarFunction {
