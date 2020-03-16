@@ -28,11 +28,11 @@ public class Kafka2AppendEs {
             "  aggId varchar ,\n" +
             "  pageId varchar ,\n" +
             "  ts varchar ,\n" +
-            "  expoCnt bigint ,\n" +
-            "  clkCnt bigint\n" +
+            "  expoCnt int ,\n" +
+            "  clkCnt int\n" +
             ") WITH (\n" +
             "'connector.type' = 'elasticsearch',\n" +
-            "'connector.version' = '6',\n" +
+            "'connector.version' = '7',\n" +
             "'connector.hosts' = 'http://localhost:9200',\n" +
             "'connector.index' = 'append_test',\n" +
             "'connector.document-type' = '_doc',\n" +
@@ -47,10 +47,14 @@ public class Kafka2AppendEs {
 
 
     public static void main(String[] args) throws Exception {
+        System.out.println(csvSourceDDL);
+        System.out.print(sinkDDL);
+        System.out.print(query);
+
         // legacy planner test passed
 //         testLegacyPlanner();
 
-        // blink planner test failed
+        // blink planner test passed
         testBlinkPlanner();
 //        System.out.println(sinkDDL);
     }

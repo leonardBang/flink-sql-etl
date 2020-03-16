@@ -16,7 +16,7 @@
     <!-- global properties -->
     <properties>
         <scala.binary.version>2.11</scala.binary.version>
-        <flink.version>1.11.0-StreamingSink</flink.version>
+        <flink.version>1.11-SNAPSHOT</flink.version>
         <hadoop.version>2.8.3</hadoop.version>
         <hive.version>3.1.0</hive.version>
     </properties>

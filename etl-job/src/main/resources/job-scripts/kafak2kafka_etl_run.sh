@@ -43,5 +43,8 @@ cd /Users/bang/hive-3.1.2
 ## init hive schema
 bin/schematool -initSchema -dbType mysql
 bin/hive
+## start metastore service
+bin/hive --service metastore -p 9083 &
+
 
 

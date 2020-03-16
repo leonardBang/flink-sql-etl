@@ -130,17 +130,23 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.48</version>
         </dependency>
-        <!--   elasticsearch connector     -->
+<!--           elasticsearch connector-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>
+            <artifactId>flink-sql-connector-elasticsearch7_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.flink</groupId>-->
-        <!--            <artifactId>flink-sql-connector-elasticsearch7_${scala.binary.version}</artifactId>-->
-        <!--            <version>${flink.version}</version>-->
-        <!--        </dependency>-->
+<!--        <dependency>-->
+<!--            &lt;!&ndash; API bridge between log4j 1 and 2 &ndash;&gt;-->
+<!--            <groupId>org.apache.logging.log4j</groupId>-->
+<!--            <artifactId>log4j-1.2-api</artifactId>-->
+<!--            <version>2.12.1</version>-->
+<!--        </dependency>-->
         <!--   hbase connector     -->
         <dependency>
             <groupId>org.apache.flink</groupId>

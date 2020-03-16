@@ -98,7 +98,7 @@ public class Kafka2UpsertEs {
         // legacy planner test passed
 //         testLegacyPlanner();
 
-        // blink planner test failed
+        // blink planner test passed
         testBlinkPlanner();
     }
 

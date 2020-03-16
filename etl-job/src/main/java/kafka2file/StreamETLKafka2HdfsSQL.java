@@ -35,10 +35,10 @@ public class StreamETLKafka2HdfsSQL {
 
         executionEnvironment.setParallelism(1);
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(executionEnvironment, environmentSettings);
-//        testHiveSink(tableEnvironment);
+        testHiveSink(tableEnvironment);
 //        testHivePartition(tableEnvironment);
 
-        testKafka2hive(tableEnvironment);
+//        testKafka2hive(tableEnvironment);
     }
 
     private static void testHiveSink(StreamTableEnvironment tableEnvironment) throws Exception{
@@ -56,10 +56,12 @@ public class StreamETLKafka2HdfsSQL {
                 " 'format.fields.2.name' = 'content',\n" +
                 " 'format.fields.2.data-type' = 'STRING')";
 
-        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "hive_test", "/Users/bang/hive-3.1.2/conf", "3.1.2");
+        HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", "/Users/bang/hive-3.1.2/conf", "3.1.2");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
+        tableEnvironment.useCatalog("myhive");
+        tableEnvironment.useDatabase("default");
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        String hiveTableDDL = "insert into myhive.hive_test.user_info select user_name, is_new, content from csv";
+        String hiveTableDDL = "insert into user_ino_no_part select user_name, is_new, content from csv";
 
         tableEnvironment.sqlUpdate(hiveTableDDL);
         tableEnvironment.execute("StreamETLKafka2HdfsSQL");
@@ -109,6 +111,7 @@ public class StreamETLKafka2HdfsSQL {
                 "  'connector.startup-mode' = 'earliest-offset',\n" +
                 "  'format.type' = 'csv')";
 
+        System.out.println(soureTableDDL);
         HiveCatalog hiveCatalog = new HiveCatalog("myhive", "hive_test", "/Users/bang/hive-3.1.2/conf", "3.1.2");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
         tableEnvironment.sqlUpdate(soureTableDDL);
@@ -124,6 +127,7 @@ public class StreamETLKafka2HdfsSQL {
 
         String hiveTableDDL = "insert into myhive.hive_test.user_info_kafka select user_name, is_new, content from csvData";
         tableEnvironment.sqlUpdate(hiveTableDDL);
+        System.out.println(hiveTableDDL);
 
 //      tableEnvironment.toAppendStream(tableEnvironment.sqlQuery("select user_name, is_new, content from csvData"), Row.class).print();
         tableEnvironment.execute("StreamETLKafka2HdfsSQL");
