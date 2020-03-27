@@ -38,7 +38,7 @@ public class StreamETLKafka2HdfsSQL {
         testHiveSink(tableEnvironment);
 //        testHivePartition(tableEnvironment);
 
-//        testKafka2hive(tableEnvironment);
+        testKafka2hive(tableEnvironment);
     }
 
     private static void testHiveSink(StreamTableEnvironment tableEnvironment) throws Exception{
@@ -55,6 +55,7 @@ public class StreamETLKafka2HdfsSQL {
                 " 'format.fields.1.data-type' = 'BOOLEAN',\n" +
                 " 'format.fields.2.name' = 'content',\n" +
                 " 'format.fields.2.data-type' = 'STRING')";
+        System.out.println(csvSourceDDL);
 
         HiveCatalog hiveCatalog = new HiveCatalog("myhive", "default", "/Users/bang/hive-3.1.2/conf", "3.1.2");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
@@ -84,6 +85,8 @@ public class StreamETLKafka2HdfsSQL {
                 " 'format.fields.2.data-type' = 'STRING',\n" +
                 " 'format.fields.3.name' = 'date_col',\n" +
                 " 'format.fields.3.data-type' = 'STRING')";
+        System.out.println(csvSourceDDL);
+
 
         HiveCatalog hiveCatalog = new HiveCatalog("myhive", "hive_test", "/Users/bang/hive-3.1.2/conf", "3.1.2");
         tableEnvironment.registerCatalog("myhive", hiveCatalog);
@@ -92,6 +95,7 @@ public class StreamETLKafka2HdfsSQL {
 //        String hiveTableDDL = "insert into myhive.hive_test.user_info_partition select user_name, is_new, content, date_col from csv";
         String hiveTableDDL = "insert into myhive.hive_test.user_info_partition PARTITION(date_col='2020-01-01') select user_name, is_new, content from csv";
         tableEnvironment.sqlUpdate(hiveTableDDL);
+
         tableEnvironment.execute("StreamETLKafka2HdfsSQL");
     }
 

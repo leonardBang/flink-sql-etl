@@ -13,7 +13,10 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -65,6 +68,5 @@ public class AvroSchemaRegistryTest {
             }
         }
     }
-
 
 }

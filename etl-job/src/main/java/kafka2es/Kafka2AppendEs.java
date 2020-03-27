@@ -34,7 +34,7 @@ public class Kafka2AppendEs {
             "'connector.type' = 'elasticsearch',\n" +
             "'connector.version' = '7',\n" +
             "'connector.hosts' = 'http://localhost:9200',\n" +
-            "'connector.index' = 'append_test',\n" +
+            "'connector.index' = 'append_test7',\n" +
             "'connector.document-type' = '_doc',\n" +
             "'update-mode' = 'upsert',\n" +
             "'connector.key-delimiter' = '$',\n" +
