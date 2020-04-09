@@ -36,6 +36,13 @@
             <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
+        <!-- 1.11 need this！  -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-clients_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
         <!-- kafka connector -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
@@ -138,14 +145,14 @@
 <!--        </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
-            <artifactId>flink-sql-connector-elasticsearch7_${scala.binary.version}</artifactId>
+            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-elasticsearch7_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-connector-elasticsearch7_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
 <!--        <dependency>-->
 <!--            &lt;!&ndash; API bridge between log4j 1 and 2 &ndash;&gt;-->
 <!--            <groupId>org.apache.logging.log4j</groupId>-->

@@ -34,7 +34,7 @@ public class Kafka2dynamicEsSQL {
             "'connector.type' = 'elasticsearch',\n" +
             "'connector.version' = '6',\n" +
             "'connector.hosts' = 'http://localhost:9200',\n" +
-            "'connector.index' = 'dynamic_index_{ts|yyyy_MM_dd_HH}',\n" +
+            "'connector.index' = '666dynamic_index_{ts|yyyy_MM_dd_HH}',\n" +
             "'connector.document-type' = '_doc',\n" +
             "'update-mode' = 'upsert',\n" +
             "'connector.key-delimiter' = '$',\n" +
@@ -56,7 +56,7 @@ public class Kafka2dynamicEsSQL {
 
     public static void testLegacyPlanner() throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
+        env.setParallelism(4);
         EnvironmentSettings envSettings = EnvironmentSettings.newInstance()
                 .useOldPlanner()
                 .inStreamingMode()
