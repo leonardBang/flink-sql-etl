@@ -17,7 +17,7 @@ public class TestCsv2Csv {
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(executionEnvironment, environmentSettings);
 
         String csvSourceDDL = "create table csv(" +
-                " id `BIGINT`," +
+                " id INT," +
                 " note STRING," +
                 " country STRING," +
                 " record_time TIMESTAMP(4)," +
@@ -25,21 +25,23 @@ public class TestCsv2Csv {
                 ") with (" +
                 " 'connector.type' = 'filesystem',\n" +
                 " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test.csv',\n" +
-                " 'format.type' = 'csv',\n" +
-                " 'format.fields.0.name' = 'id',\n" +
-                " 'format.fields.0.data-type' = 'BIGINT',\n" +
-                " 'format.fields.1.name' = 'note',\n" +
-                " 'format.fields.1.data-type' = 'STRING',\n" +
-                " 'format.fields.2.name' = 'country',\n" +
-                " 'format.fields.2.data-type' = 'STRING',\n" +
-                " 'format.fields.3.name' = 'record_time',\n" +
-                " 'format.fields.3.data-type' = 'TIMESTAMP(4)'," +
-                " 'format.fields.4.name' = 'doub_val',\n" +
-                " 'format.fields.4.data-type' = 'DECIMAL(6, 2)'" +
+                " 'format.type' = 'csv'" +
+                ")";
+        String csvSink = "create table csvSink(" +
+                " id INT," +
+                " note STRING," +
+                " country STRING," +
+                " record_time TIMESTAMP(4)," +
+                " doub_val DECIMAL(6, 2)" +
+                ") with (" +
+                " 'connector.type' = 'filesystem',\n" +
+                " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test1234.csv',\n" +
+                " 'format.type' = 'csv'" +
                 ")";
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        tableEnvironment.toAppendStream(tableEnvironment.sqlQuery("select * from csv"), Row.class).print();
+        tableEnvironment.sqlUpdate(csvSink);
 
+        tableEnvironment.sqlUpdate("insert into csvSink select * from csv");
         tableEnvironment.execute("csvTest");
 
     }

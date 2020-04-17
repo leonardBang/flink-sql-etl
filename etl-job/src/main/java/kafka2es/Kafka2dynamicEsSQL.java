@@ -34,7 +34,7 @@ public class Kafka2dynamicEsSQL {
             "'connector.type' = 'elasticsearch',\n" +
             "'connector.version' = '6',\n" +
             "'connector.hosts' = 'http://localhost:9200',\n" +
-            "'connector.index' = '666dynamic_index_{ts|yyyy_MM_dd_HH}',\n" +
+            "'connector.index' = 'dadynamic-index-{clkCnt}',\n" +
             "'connector.document-type' = '_doc',\n" +
             "'update-mode' = 'upsert',\n" +
             "'connector.key-delimiter' = '$',\n" +
