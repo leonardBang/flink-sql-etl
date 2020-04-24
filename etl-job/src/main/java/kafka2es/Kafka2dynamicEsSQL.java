@@ -44,8 +44,28 @@ public class Kafka2dynamicEsSQL {
             ")\n";
     private static String query = "INSERT INTO append_test\n" +
             "  SELECT  pageId,eventId,recvTime ts, 1, 1 from csv";
-
-
+    private static String mysqlSinkDDL = "CREATE TABLE nonExisted (\n" +
+            "  c0 BOOLEAN," +
+            "  c1 INTEGER," +
+            "  c2 BIGINT," +
+            "  c3 FLOAT," +
+            "  c4 DOUBLE," +
+            "  c5 DECIMAL(38, 18)," +
+            "  c6 STRING," +
+            "  c7 DATE," +
+            "  c8 TIME(0)," +
+            "  c9 TIMESTAMP(3)" +
+            ") WITH (\n" +
+            "   'connector.type' = 'jdbc',\n" +
+            "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
+            "   'connector.username' = 'root'," +
+            "   'connector.table' = 'nonExisted',\n" +
+            "   'connector.driver' = 'com.mysql.jdbc.Driver',\n" +
+            "   'connector.write.auto-create-table' = 'true' " +
+            ")";
+    private static String queryMysql = "insert into nonExisted " +
+            "select true as c0, id, cast(id as bigint),cast(doub_val as float),cast(doub_val as double), doub_val,country," +
+            " date_val, time_val, record_time from csv";
     public static void main(String[] args) throws Exception {
         // legacy planner test passed
 //         testLegacyPlanner();
@@ -80,8 +100,8 @@ public class Kafka2dynamicEsSQL {
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        tableEnvironment.sqlUpdate(sinkDDL);
-        tableEnvironment.sqlUpdate(query);
+        tableEnvironment.sqlUpdate(mysqlSinkDDL);
+        tableEnvironment.sqlUpdate(queryMysql);
 
         tableEnvironment.execute("Kafka2Es");
     }

@@ -28,20 +28,21 @@ public class TestCsv2Csv {
                 " 'format.type' = 'csv'" +
                 ")";
         String csvSink = "create table csvSink(" +
-                " id INT," +
-                " note STRING," +
-                " country STRING," +
-                " record_time TIMESTAMP(4)," +
-                " doub_val DECIMAL(6, 2)" +
+                " jnlno STRING,\n" +
+                "  taskid char(4),\n" +
+                "   hit VARCHAR " +
                 ") with (" +
                 " 'connector.type' = 'filesystem',\n" +
-                " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test1234.csv',\n" +
+                " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test12311.csv',\n" +
                 " 'format.type' = 'csv'" +
                 ")";
         tableEnvironment.sqlUpdate(csvSourceDDL);
         tableEnvironment.sqlUpdate(csvSink);
-
-        tableEnvironment.sqlUpdate("insert into csvSink select * from csv");
+        tableEnvironment.sqlUpdate("insert into  csvSink select a.country,'111111qeq','false' from csv a");
+//
+//        tableEnvironment.toAppendStream(
+//                tableEnvironment.sqlQuery("insert into  target select a.country,'111111qeq','false' from csv a"),
+//                Row.class).print();
         tableEnvironment.execute("csvTest");
 
     }
