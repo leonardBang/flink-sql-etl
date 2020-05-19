@@ -7,8 +7,7 @@ CREATE TABLE orders (
   proc_time as PROCTIME(),
   amount_kg as amount * 1000,
   ts as order_time + INTERVAL '1' SECOND,
-  WATERMARK FOR order_time AS order_time
-) WITH (
+  WATERMARK FOR order_time AS order_time) WITH (
   'connector.type' = 'kafka',
   'connector.version' = '0.10',
   'connector.topic' = 'flink_orders',
@@ -35,10 +34,8 @@ CREATE TABLE order_cnt (
   'format.type' = 'json',
   'format.derive-schema' = 'true'
 )
-
 insert into order_cnt
-select TUMBLE_END(ts, INTERVAL '10' SECOND),
+select TUMBLE_END(order_time, INTERVAL '10' SECOND),
  item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality
 from orders
-group by item, TUMBLE(ts, INTERVAL '10' SECOND)
-
+group by item, TUMBLE(order_time, INTERVAL '10' SECOND)

@@ -24,7 +24,7 @@ public class Kafka2UpsertEs {
             " 'format.fields.1.data-type' = 'STRING',\n" +
             " 'format.fields.2.name' = 'recvTime',\n" +
             " 'format.fields.2.data-type' = 'STRING')";
-    private static String sinkDDL = "CREATE TABLE ES6_ZHANGLE_OUTPUT (\n" +
+    private static String sinkDDL = "CREATE TABLE test_upsert (\n" +
             "  aggId varchar ,\n" +
             "  pageId varchar ,\n" +
             "  ts varchar ,\n" +
@@ -129,26 +129,13 @@ public class Kafka2UpsertEs {
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
         tableEnvironment.registerFunction("ts2Date", new ts2Date());
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        tableEnvironment.sqlUpdate(sinkMysqlDDL);
-
-        String queryTest =  "  SELECT aggId, pageId, ts,\n" +
-                "  count(case when eventId = 'exposure' then 1 else null end) as expoCnt,\n" +
-                "  count(case when eventId = 'click' then 1 else null end) as clkCnt\n" +
-                "  FROM\n" +
-                "  (\n" +
-                "    SELECT\n" +
-                "        'ZL_001' as aggId,\n" +
-                "        pageId,\n" +
-                "        eventId,\n" +
-                "        recvTime,\n" +
-                "        ts2Date(recvTime) as ts\n" +
-                "    from csv\n" +
-                "    where eventId in ('exposure', 'click')\n" +
-                "  ) as t1\n" +
-                "  group by aggId, pageId, ts";;
-         System.out.println(tableEnvironment.explain(tableEnvironment.sqlQuery(queryTest)));
-
+        tableEnvironment.sqlUpdate(sinkDDL);
         tableEnvironment.sqlUpdate(query);
+        System.out.println(csvSourceDDL);
+        System.out.println(sinkDDL);
+        System.out.println(query);
+
+
 
         tableEnvironment.execute("Kafka2Es");
     }

@@ -29,7 +29,7 @@ import org.apache.flink.table.api.java.StreamTableEnvironment;
 public class testNonExistedTable {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
+        env.setParallelism(4);
         EnvironmentSettings envSettings = EnvironmentSettings.newInstance()
                 .useBlinkPlanner()
                 .inStreamingMode()
@@ -41,9 +41,9 @@ public class testNonExistedTable {
                 " note VARCHAR," +
                 " country VARCHAR," +
                 " record_time TIMESTAMP(3)," +
-                " doub_val DECIMAL(38, 18)," +
+                " doub_val DECIMAL(6, 2)," +
                 " date_val DATE," +
-                " time_val TIME(0)" +
+                " time_val TIME" +
                 ") with (" +
                 " 'connector.type' = 'filesystem',\n" +
                 " 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/test_nonexistedTable.csv',\n" +
@@ -58,19 +58,23 @@ public class testNonExistedTable {
                 "  c5 DECIMAL(38, 18)," +
                 "  c6 VARCHAR," +
                 "  c7 DATE," +
-                "  c8 TIME(0)," +
+                "  c8 TIME," +
                 "  c9 TIMESTAMP(3)" +
                 ") WITH (\n" +
                 "   'connector.type' = 'jdbc',\n" +
                 "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
                 "   'connector.username' = 'root'," +
-                "   'connector.table' = 'nonExisted',\n" +
+                "   'connector.table' = 'nonExisted3',\n" +
                 "   'connector.driver' = 'com.mysql.jdbc.Driver',\n" +
                 "   'connector.write.auto-create-table' = 'true' " +
                 ")";
         String query = "insert into nonExisted " +
-                "select true as c0, id, cast(id as bigint),cast(doub_val as float),cast(doub_val as double), doub_val,country," +
-                " date_val, time_val, record_time from csv";
+                "select max(c0),c1,c2,c3,c4,max(c5),max(c6),max(c7),max(c8),max(c9) from " +
+                " (select true as c0, id as c1, cast(id as bigint) as c2,cast(doub_val as float)as c3,cast(doub_val as double) as c4," +
+                " doub_val as c5, country as c6, date_val as c7, time_val as c8, record_time as c9 from csv)" +
+                " a group by c1, c2, c3, c4";
+//        String query = "insert into nonExisted select true as c0, id as c1, cast(id as bigint) as c2,cast(doub_val as float)as c3,cast(doub_val as double) as c4," +
+//                " doub_val as c5, country as c6, date_val as c7, time_val as c8, record_time as c9 from csv";
         tableEnvironment.sqlUpdate(csvSourceDDL);
         tableEnvironment.sqlUpdate(mysqlSinkDDL);
         tableEnvironment.sqlUpdate(query);

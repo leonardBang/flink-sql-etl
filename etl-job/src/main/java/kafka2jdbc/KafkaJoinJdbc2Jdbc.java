@@ -14,7 +14,6 @@ public class KafkaJoinJdbc2Jdbc {
             "  order_time TIMESTAMP(3),\n" +
             "  proc_time as PROCTIME(),\n" +
             "  amount_kg as amount * 1000,\n" +
-            "  ts as order_time + INTERVAL '1' SECOND,\n" +
             "  WATERMARK FOR order_time AS order_time\n" +
             ") WITH (\n" +
             "  'connector.type' = 'kafka',\n" +
@@ -83,14 +82,18 @@ public class KafkaJoinJdbc2Jdbc {
         tableEnvironment.sqlUpdate(mysqlSinkTableDDL);
 
         String querySQL = "insert into gmv \n" +
-                "select cast(TUMBLE_END(o.ts, INTERVAL '10' SECOND) as VARCHAR) as log_ts,\n" +
+                "select cast(TUMBLE_END(o.order_time, INTERVAL '10' SECOND) as VARCHAR) as log_ts,\n" +
                 " o.item, COUNT(o.order_id) as order_cnt, c.currency_time, cast(sum(o.amount_kg) * c.rate as DECIMAL(38, 18))  as gmv,\n" +
                 " c.timestamp9, c.time9, c.gdp\n" +
                 "from orders as o \n" +
                 "join currency FOR SYSTEM_TIME AS OF o.proc_time c\n" +
                 "on o.currency = c.currency_name\n" +
-                "group by o.item, c.currency_time, c.rate, c.timestamp9, c.time9, c.gdp, TUMBLE(o.ts, INTERVAL '10' SECOND)\n" ;
+                "group by o.item, c.currency_time, c.rate, c.timestamp9, c.time9, c.gdp, TUMBLE(o.order_time, INTERVAL '10' SECOND)\n" ;
 
+        System.out.println(kafkaSourceDDL);
+        System.out.println(mysqlDimDDL);
+        System.out.println(mysqlSinkTableDDL);
+        System.out.println(querySQL);
         tableEnvironment.sqlUpdate(querySQL);
 //        tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
         tableEnvironment.execute("KafkaJoinJdbc2Jdbc");

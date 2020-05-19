@@ -1,13 +1,7 @@
--- load csv data to kafka
+-- from csv data to kafka
 create table csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with ( 'connector.type' = 'filesystem',
  'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',
- 'format.type' = 'csv',
- 'format.fields.0.name' = 'user_name',
- 'format.fields.0.data-type' = 'STRING',
- 'format.fields.1.name' = 'is_new',
- 'format.fields.1.data-type' = 'BOOLEAN',
- 'format.fields.2.name' = 'content',
- 'format.fields.2.data-type' = 'STRING')
+ 'format.type' = 'csv')
 CREATE TABLE csvData (
   user_name STRING,
   is_new    BOOLEAN,
@@ -24,7 +18,7 @@ insert into csvData
 select user_name, is_new, content from
 csv
 
--- from kafka to kafka
+-- from kafka to csv
 CREATE TABLE csvData (
   user_name STRING,
   is_new    BOOLEAN,

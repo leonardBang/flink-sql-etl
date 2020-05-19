@@ -12,4 +12,6 @@ CREATE TABLE csvData (
   'connector.startup-mode' = 'earliest-offset',
   'format.type' = 'csv')
 
+-- read from kafka, and then write to hive
+
 insert into myhive.hive_test.user_info_kafka select user_name, is_new, content from csvData

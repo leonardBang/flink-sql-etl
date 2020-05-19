@@ -104,6 +104,11 @@ public class KafkaJoinHbaseJoinMysql2Hbase {
                 " on c.country = co.rowkey" +
                 " group by o.item, c.currency_time, c.rate, co.f1.country_name, co.f1.country_name_cn, co.f1.region_name, co.f1.currency," +
                 " TUMBLE(o.ts, INTERVAL '10' SECOND)) a\n" ;
+        System.out.println(kafkaOrdersDDL);
+        System.out.println(hbaseDimTableDDL);
+        System.out.println(mysqlDimTableDDL);
+        System.out.println(hbaseSinkTableDDL);
+        System.out.println(querySQL);
 
 //        tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
         tableEnvironment.sqlUpdate(querySQL);

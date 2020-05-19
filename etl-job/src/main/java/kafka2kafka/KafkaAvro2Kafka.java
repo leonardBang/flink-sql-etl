@@ -17,7 +17,7 @@ public class KafkaAvro2Kafka {
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
 
         // step 1, should note step 2 when call
-//                flinkCsv2Avro(tableEnvironment);
+//        flinkCsv2Avro(tableEnvironment);
 
         // step 2, should note step 1 when call
         flinkAvro2Avro(tableEnvironment);
@@ -32,53 +32,54 @@ public class KafkaAvro2Kafka {
                 ") with (" +
                 " 'connector.type' = 'filesystem',\n" +
                 " 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',\n" +
-                " 'format.type' = 'csv',\n" +
-                " 'format.fields.0.name' = 'user_name',\n" +
-                " 'format.fields.0.data-type' = 'STRING',\n" +
-                " 'format.fields.1.name' = 'is_new',\n" +
-                " 'format.fields.1.data-type' = 'BOOLEAN',\n" +
-                " 'format.fields.2.name' = 'content',\n" +
-                " 'format.fields.2.data-type' = 'STRING')";
+                " 'format.type' = 'csv')";
 
         tableEnvironment.sqlUpdate(csvSourceDDL);
 
-        tableEnvironment.sqlUpdate("CREATE TABLE AvroTest (\n" +
-                "  user_name VARCHAR,\n" +
-                "  is_new BOOLEAN,\n" +
-                "  content VARCHAR" +
-                ") WITH (\n" +
-                "  'connector.type' = 'kafka',\n" +
-                "  'connector.version' = '0.10',\n" +
-                "  'connector.topic' = 'avro_from_csv',\n" +
-                "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
-                "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "  'connector.properties.group.id' = 'testGroup3',\n" +
-                "  'connector.startup-mode' = 'earliest-offset',\n" +
-                "  'format.type' = 'avro',\n" +
-                "  'format.record-class' = 'kafka.UserAvro'\n" +
-                ")\n");
+        String avroDDL = "CREATE TABLE AvroTest (\n" +
+            "  user_name VARCHAR,\n" +
+            "  is_new BOOLEAN,\n" +
+            "  content VARCHAR" +
+            ") WITH (\n" +
+            "  'connector.type' = 'kafka',\n" +
+            "  'connector.version' = '0.10',\n" +
+            "  'connector.topic' = 'avro_from_csv',\n" +
+            "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
+            "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
+            "  'connector.properties.group.id' = 'testGroup3',\n" +
+            "  'connector.startup-mode' = 'earliest-offset',\n" +
+            "  'format.type' = 'avro',\n" +
+            "  'format.record-class' = 'kafka.UserAvro'\n" +
+            ")\n";
+        tableEnvironment.sqlUpdate(avroDDL);
         String querySQL = "insert into AvroTest select user_name, is_new, content from csv ";
+
+        System.out.println(csvSourceDDL);
+        System.out.println(avroDDL);
+        System.out.println(querySQL);
+
         tableEnvironment.sqlUpdate(querySQL);
         tableEnvironment.execute("FlinkCsv2Avro");
     }
 
     private static void flinkAvro2Avro(StreamTableEnvironment tableEnvironment) throws Exception{
 
-        tableEnvironment.sqlUpdate("CREATE TABLE AvroTest (\n" +
-                "  user_name VARCHAR,\n" +
-                "  is_new BOOLEAN,\n" +
-                "  content VARCHAR" +
-                ") WITH (\n" +
-                "  'connector.type' = 'kafka',\n" +
-                "  'connector.version' = '0.10',\n" +
-                "  'connector.topic' = 'avro_from_csv',\n" +
-                "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
-                "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
-                "  'connector.properties.group.id' = 'testGroup4',\n" +
-                "  'connector.startup-mode' = 'earliest-offset',\n" +
-                "  'format.type' = 'avro',\n" +
-                "  'format.record-class' = 'kafka.UserAvro'\n" +
-                ")\n");
+        String avroSourceDDL = "CREATE TABLE AvroTest (\n" +
+        "  user_name VARCHAR,\n" +
+            "  is_new BOOLEAN,\n" +
+            "  content VARCHAR" +
+            ") WITH (\n" +
+            "  'connector.type' = 'kafka',\n" +
+            "  'connector.version' = '0.10',\n" +
+            "  'connector.topic' = 'avro_from_csv',\n" +
+            "  'connector.properties.zookeeper.connect' = 'localhost:2181',\n" +
+            "  'connector.properties.bootstrap.servers' = 'localhost:9092',\n" +
+            "  'connector.properties.group.id' = 'testGroup4',\n" +
+            "  'connector.startup-mode' = 'earliest-offset',\n" +
+            "  'format.type' = 'avro',\n" +
+            "  'format.record-class' = 'kafka.UserAvro'\n" +
+            ")\n";
+        tableEnvironment.sqlUpdate(avroSourceDDL);
 
         String sinkTableDDL = "CREATE TABLE WikipediaFeed_filtered (\n" +
                 "  user_name STRING,\n" +
@@ -110,6 +111,9 @@ public class KafkaAvro2Kafka {
                 "select user_name, is_new, content \n" +
                 "from AvroTest\n" ;
 
+        System.out.println(avroSourceDDL);
+        System.out.println(sinkTableDDL);
+        System.out.println(querySQL);
         tableEnvironment.sqlUpdate(querySQL);
         tableEnvironment.execute("FlinkAvro2Avro");
     }

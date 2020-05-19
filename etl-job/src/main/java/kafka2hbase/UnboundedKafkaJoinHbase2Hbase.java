@@ -16,17 +16,13 @@ public class UnboundedKafkaJoinHbase2Hbase {
                 .inStreamingMode()
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
-
-        tableEnvironment.sqlUpdate(FlinkSqlConstants.ordersTableDDL);
-        tableEnvironment.sqlUpdate(FlinkSqlConstants.mysqlCurrencyDDL);
-//        testJoinDDLHbase(tableEnvironment);
-//        testJoinHbaseWithPrecision(tableEnvironment);
         testJoinDDLHbaseWithFunction(tableEnvironment);
     }
 
 
     private static void testJoinDDLHbaseWithFunction(StreamTableEnvironment tableEnvironment) throws Exception {
-
+        tableEnvironment.sqlUpdate(FlinkSqlConstants.ordersTableDDL);
+        tableEnvironment.sqlUpdate(FlinkSqlConstants.mysqlCurrencyDDL);
         tableEnvironment.sqlUpdate(FlinkSqlConstants.hbaseCountryDDLWithFunction);
 
         String sinkTableDDL = "CREATE TABLE gmv (\n" +
@@ -58,6 +54,12 @@ public class UnboundedKafkaJoinHbase2Hbase {
                 ") a group by rowkey\n" ;
 
         tableEnvironment.sqlUpdate(querySQL);
+
+        System.out.println(FlinkSqlConstants.ordersTableDDL);
+        System.out.println(FlinkSqlConstants.mysqlCurrencyDDL);
+        System.out.println(FlinkSqlConstants.hbaseCountryDDLWithFunction);
+        System.out.println(sinkTableDDL);
+        System.out.println(querySQL);
 
         tableEnvironment.execute("KafkaJoinHbase2Hbase");
     }

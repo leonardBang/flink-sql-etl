@@ -26,7 +26,7 @@ public class KafkaJson2Kafka {
                 "  proc_time as PROCTIME(),\n" +
                 "  amount_kg as amount * 1000,\n" +
                 "  ts as order_time + INTERVAL '1' SECOND,\n" +
-                "  WATERMARK FOR order_time AS order_time\n" +
+                "  WATERMARK FOR order_time AS order_time" +
                 ") WITH (\n" +
                 "  'connector.type' = 'kafka',\n" +
                 "  'connector.version' = '0.10',\n" +
@@ -57,21 +57,17 @@ public class KafkaJson2Kafka {
                 ")";
         tableEnvironment.sqlUpdate(sinkTableDDL);
 
-//        String querySQL = "insert into order_cnt \n" +
-//                "select TUMBLE_END(ts, INTERVAL '10' SECOND),\n" +
-//                " item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality\n" +
-//                "from orders\n" +
-//                "group by item, TUMBLE(ts, INTERVAL '10' SECOND)\n" ;
-        String querySQL = "select * from orders";
+        String querySQL = "insert into order_cnt \n" +
+                "select TUMBLE_END(order_time, INTERVAL '10' SECOND),\n" +
+                " item, COUNT(order_id) as order_cnt, CAST(sum(amount_kg) as BIGINT) as total_quality\n" +
+                "from orders\n" +
+                "group by item, TUMBLE(order_time, INTERVAL '10' SECOND)\n" ;
 
-
+        tableEnvironment.sqlUpdate(querySQL);
         System.out.println(sourceTableDDL);
         System.out.println(sinkTableDDL);
         System.out.println(querySQL);
 
-        tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
         tableEnvironment.execute("StreamKafka2KafkaJob");
-
-
     }
 }

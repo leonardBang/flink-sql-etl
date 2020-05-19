@@ -7,6 +7,8 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.java.StreamTableEnvironment;
 import org.apache.flink.table.functions.ScalarFunction;
 
+import org.apache.derby.impl.sql.catalog.SYSCOLUMNSRowFactory;
+
 import java.sql.Timestamp;
 
 public class Kafka2dynamicEsSQL {
@@ -92,6 +94,9 @@ public class Kafka2dynamicEsSQL {
     }
 
     public static void testBlinkPlanner() throws Exception {
+        System.out.println(csvSourceDDL);
+        System.out.println(sinkDDL);
+        System.out.println(query);
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
         EnvironmentSettings envSettings = EnvironmentSettings.newInstance()
@@ -100,8 +105,8 @@ public class Kafka2dynamicEsSQL {
                 .build();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(env, envSettings);
         tableEnvironment.sqlUpdate(csvSourceDDL);
-        tableEnvironment.sqlUpdate(mysqlSinkDDL);
-        tableEnvironment.sqlUpdate(queryMysql);
+        tableEnvironment.sqlUpdate(sinkDDL);
+        tableEnvironment.sqlUpdate(query);
 
         tableEnvironment.execute("Kafka2Es");
     }

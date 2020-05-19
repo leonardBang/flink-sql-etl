@@ -33,13 +33,17 @@ public class TestCsv2Csv {
                 "   hit VARCHAR " +
                 ") with (" +
                 " 'connector.type' = 'filesystem',\n" +
-                " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test12311.csv',\n" +
+                " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test12312.csv',\n" +
                 " 'format.type' = 'csv'" +
                 ")";
         tableEnvironment.sqlUpdate(csvSourceDDL);
         tableEnvironment.sqlUpdate(csvSink);
         tableEnvironment.sqlUpdate("insert into  csvSink select a.country,'111111qeq','false' from csv a");
-//
+        System.out.println(csvSourceDDL);
+        System.out.println(csvSink);
+        System.out.println("insert into  csvSink select a.country,'111111qeq','false' from csv a");
+
+        //
 //        tableEnvironment.toAppendStream(
 //                tableEnvironment.sqlQuery("insert into  target select a.country,'111111qeq','false' from csv a"),
 //                Row.class).print();
