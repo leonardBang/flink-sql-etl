@@ -49,7 +49,6 @@ public class KafkaJoinJdbc2JdbcProc {
                 "join currency FOR SYSTEM_TIME AS OF o.proc_time c\n" +
                 "on o.currency = c.currency_name\n" +
                 "group by o.item, c.currency_time, c.rate, c.timestamp9, c.time9, c.gdp, TUMBLE(o.proc_time, INTERVAL '10' SECOND)\n" ;
-
         tableEnvironment.sqlUpdate(querySQL);
 
         tableEnvironment.execute("KafkaJoinJdbc2Jdbc");
