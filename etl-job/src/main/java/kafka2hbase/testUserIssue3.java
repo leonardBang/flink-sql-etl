@@ -37,7 +37,7 @@ public class testUserIssue3 {
         tableEnvironment.sqlUpdate(kafkaSourceDDL);
         String querySQL = "select w_ts," +
             " 'test' as city1_id, " +
-            " w_data,\n" +
+            " w_data[1].pay_info,\n" +
             " w_data as pay_order_id from json_table";
         System.out.println(kafkaSourceDDL);
         System.out.println(querySQL);
