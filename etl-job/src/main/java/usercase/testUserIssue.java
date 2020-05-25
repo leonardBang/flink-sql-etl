@@ -1,4 +1,4 @@
-package kafka2hbase;
+package usercase;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
