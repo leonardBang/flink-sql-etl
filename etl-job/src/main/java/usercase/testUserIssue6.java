@@ -15,6 +15,7 @@ import static org.apache.flink.table.api.DataTypes.STRING;
 
 public class testUserIssue6 {
     public static void main(String[] args) throws Exception {
+        System.out.println("\u65E0");
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 

@@ -1,6 +1,6 @@
-create table csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR) with (
+create table test_csv( user_name VARCHAR, is_new BOOLEAN, content VARCHAR, date_col VARCHAR) with (
  'connector.type' = 'filesystem',
- 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user.csv',
+ 'connector.path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user_part.csv',
  'format.type' = 'csv')
 
 -- table user_info_partition is a hive partition table, we create hive table first, and then use hivecatalog to load hive table, then flink can insert
