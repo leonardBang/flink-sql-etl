@@ -19,7 +19,7 @@
 package usercase;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.java.StreamTableEnvironment;
+import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class testUserIssue8 {
     public static void main(String[] args) throws Exception {
