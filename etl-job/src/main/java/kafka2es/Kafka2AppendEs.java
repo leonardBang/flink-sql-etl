@@ -32,7 +32,7 @@ public class Kafka2AppendEs {
             "  clkCnt int\n" +
             ") WITH (\n" +
             "'connector.type' = 'elasticsearch',\n" +
-            "'connector.version' = '7',\n" +
+            "'connector.version' = '6',\n" +
             "'connector.hosts' = 'http://localhost:9200',\n" +
             "'connector.index' = 'append_test7',\n" +
             "'connector.document-type' = '_doc',\n" +
@@ -78,7 +78,7 @@ public class Kafka2AppendEs {
 
     public static void testBlinkPlanner() throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
+        env.setParallelism(2);
         EnvironmentSettings envSettings = EnvironmentSettings.newInstance()
                 .useBlinkPlanner()
                 .inStreamingMode()

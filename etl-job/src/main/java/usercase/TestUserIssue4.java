@@ -5,7 +5,7 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
-public class testUserIssue4 {
+public class TestUserIssue4 {
 
     private static String mysqlTable = "create table tb(id string, cooper bigint, user_sex string) with(\n" +
         "    'connector.type' = 'jdbc',\n" +

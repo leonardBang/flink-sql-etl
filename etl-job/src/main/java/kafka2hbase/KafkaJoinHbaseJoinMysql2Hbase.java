@@ -114,7 +114,5 @@ public class KafkaJoinHbaseJoinMysql2Hbase {
         tableEnvironment.sqlUpdate(querySQL);
 
         tableEnvironment.execute("hbase2hbase_ETL_job");
-
-
     }
 }

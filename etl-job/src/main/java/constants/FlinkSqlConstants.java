@@ -83,47 +83,19 @@ public class FlinkSqlConstants {
             "   'connector.lookup.cache.ttl' = '10s',\n" +
             "   'connector.lookup.max-retries' = '3'" +
             ")";
-    public static final String esCurrencyDDL = "CREATE TABLE currency (\n" +
-            "  currency_id BIGINT,\n" +
-            "  currency_name STRING,\n" +
-            "  rate DOUBLE,\n" +
-            "  currency_time TIMESTAMP(3),\n" +
-            "  country STRING,\n" +
-            "  timestamp9 TIMESTAMP(3),\n" +
-            "  time9 TIME(3),\n" +
-            "  gdp DECIMAL(38, 18)\n" +
-            ") WITH (\n" +
-            "  'connector.type' = 'elasticsearch',\n" +
-            "  'connector.version' = '6',\n" +
-            "  'connector.hosts' = 'http://localhost:9092',\n" +
-            "  'connector.index' = 'currency',\n" +
-            "  'connector.document-type' = 'currency-doc',\n" +
-            "  'format.type' = 'json'"+
-            ")";
-
-
-    public static final String hbaseCountryDDL= "CREATE TABLE country (\n" +
-            "  rowkey VARCHAR,\n" +
-            "  f1 ROW<country_id INT, country_name VARCHAR, country_name_cn VARCHAR, currency VARCHAR, region_name VARCHAR> \n" +
-            " " +
-            ") WITH (\n" +
-            "    'connector.type' = 'hbase',\n" +
-            "    'connector.version' = '1.4.3',\n" +
-            "    'connector.table-name' = 'country',\n" +
-            "    'connector.zookeeper.quorum' = 'localhost:2182',\n" +
-            "    'connector.zookeeper.znode.parent' = '/hbase' " +
-            ")";
+    
     public static final String hbaseCountryDDLWithPrecison = "CREATE TABLE country (\n" +
-            "  rowkey VARCHAR,\n" +
-            "  f1 ROW<country_id INT, country_name VARCHAR, country_name_cn VARCHAR, currency VARCHAR, region_name VARCHAR>, \n" +
-            "  f2 ROW<record_timestamp3 TIMESTAMP(3), record_timestamp9 TIMESTAMP(9), time3 TIME(3), time9 TIME(9), gdp DECIMAL(10,4)>" +
-            ") WITH (\n" +
-            "    'connector.type' = 'hbase',\n" +
-            "    'connector.version' = '1.4.3',\n" +
-            "    'connector.table-name' = 'country',\n" +
-            "    'connector.zookeeper.quorum' = 'localhost:2182',\n" +
-            "    'connector.zookeeper.znode.parent' = '/hbase' " +
-            ")";
+        "  rowkey VARCHAR,\n" +
+        "  f1 ROW<country_id INT, country_name VARCHAR, country_name_cn VARCHAR, currency VARCHAR, region_name VARCHAR>, \n" +
+        "  f2 ROW<record_timestamp3 TIMESTAMP(3), record_timestamp9 TIMESTAMP(9), time3 TIME(3), time9 TIME(9), gdp DECIMAL(10,4)>" +
+        ") WITH (\n" +
+        "    'connector.type' = 'hbase',\n" +
+        "    'connector.version' = '1.4.3',\n" +
+        "    'connector.table-name' = 'country',\n" +
+        "    'connector.zookeeper.quorum' = 'localhost:2182',\n" +
+        "    'connector.zookeeper.znode.parent' = '/hbase' " +
+        ")";
+
     public static final String hbaseCountryDDLWithFunction = "CREATE TABLE country (\n" +
             "  rowkey VARCHAR,\n" +
             "  f1 ROW<country_id INT, country_name VARCHAR, country_name_cn VARCHAR, currency VARCHAR, region_name VARCHAR> \n" +
@@ -135,5 +107,55 @@ public class FlinkSqlConstants {
             "    'connector.zookeeper.quorum' = 'localhost:2182',\n" +
             "    'connector.zookeeper.znode.parent' = '/hbase' " +
             ")";
+
+    public static String ordersTableDDL11 = "CREATE TABLE orders (\n" +
+        "  order_id STRING,\n" +
+        "  item    STRING,\n" +
+        "  currency STRING,\n" +
+        "  amount INT,\n" +
+        "  order_time TIMESTAMP(3),\n" +
+        "  proc_time as PROCTIME(),\n" +
+        "  amount_kg as amount * 1000,\n" +
+        "  ts as order_time + INTERVAL '1' SECOND,\n" +
+        "  WATERMARK FOR order_time AS order_time\n" +
+        ") WITH (\n" +
+        "  'connector' = 'kafka-0.10',\n" +
+        "  'topic' = 'flink_orders2',\n" +
+        "  'properties.zookeeper.connect' = 'localhost:2181',\n" +
+        "  'properties.bootstrap.servers' = 'localhost:9092',\n" +
+        "  'properties.group.id' = 'testGroup3',\n" +
+        "  'scan.startup.mode' = 'earliest-offset',\n" +
+        "  'format' = 'json'\n" +
+        ")\n";
+    public static final String mysqlCurrencyDDL11 = "CREATE TABLE currency (\n" +
+        "  currency_id BIGINT,\n" +
+        "  currency_name STRING,\n" +
+        "  rate DOUBLE,\n" +
+        "  currency_time TIMESTAMP(3),\n" +
+        "  country STRING,\n" +
+        "  timestamp9 TIMESTAMP(3),\n" +
+        "  time9 TIME(3),\n" +
+        "  gdp DECIMAL(38, 18)\n" +
+        ") WITH (\n" +
+        "   'connector' = 'jdbc',\n" +
+        "   'url' = 'jdbc:mysql://localhost:3306/test',\n" +
+        "   'table-name' = 'currency',\n" +
+        "   'username' = 'root',\n" +
+        "   'password' = '',\n" +
+        "   'driver' = 'com.mysql.jdbc.Driver',\n" +
+        "   'lookup.cache.max-rows' = '500', \n" +
+        "   'lookup.cache.ttl' = '10s',\n" +
+        "   'lookup.max-retries' = '3'" +
+        ")";
+    public static final String hbaseCountryDDLWithPrecison11 = "CREATE TABLE country (\n" +
+        "  rowkey VARCHAR,\n" +
+        "  f1 ROW<country_id INT, country_name VARCHAR, country_name_cn VARCHAR, currency VARCHAR, region_name VARCHAR>, \n" +
+        "  f2 ROW<record_timestamp3 TIMESTAMP(3), record_timestamp9 TIMESTAMP(3), time3 TIME(3), time9 TIME(9), gdp DECIMAL(10,4)>" +
+        ") WITH (\n" +
+        "    'connector' = 'hbase-1.4',\n" +
+        "    'table-name' = 'country',\n" +
+        "    'zookeeper.quorum' = 'localhost:2182',\n" +
+        "    'zookeeper.znode-parent' = '/hbase' " +
+        ")";
 
 }

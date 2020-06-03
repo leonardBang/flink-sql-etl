@@ -5,7 +5,7 @@ import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
 
-public class testUserIssue2 {
+public class TestUserIssue2 {
     private static String  kafkaOrdersDDL =  "CREATE TABLE user_log (\n" +
         "  order_id STRING,\n" +
         "  item    STRING,\n" +

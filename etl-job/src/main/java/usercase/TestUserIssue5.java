@@ -8,7 +8,7 @@ import org.apache.flink.types.Row;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-public class testUserIssue5 {
+public class TestUserIssue5 {
 
     private static String hbaseSourceDDL = "CREATE TABLE country (\n" +
             "  rowkey VARCHAR,\n" +

@@ -25,7 +25,7 @@ import org.apache.flink.table.runtime.functions.SqlDateTimeUtils;
 
 import java.sql.Timestamp;
 
-public class testUserIssue7 {
+public class TestUserIssue7 {
     public static void main(String[] args) throws Exception {
         long t = System.currentTimeMillis();
         System.out.println(t);

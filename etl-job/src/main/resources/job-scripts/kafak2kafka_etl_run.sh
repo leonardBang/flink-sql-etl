@@ -2,6 +2,9 @@
 cd /Users/bang/kafka_2.11-0.10.2.0
 ./bin/zookeeper-server-start.sh -daemon ./config/zookeeper.properties
 ./bin/kafka-server-start.sh -daemon ./config/server.properties
+#optional
+./bin/kafka-topics.sh --create --topic json-test --zookeeper localhost:2181 --partitions 1 --replication-factor 1
+./bin/kafka-console-producer.sh --topic json-test --broker-list localhost:9092
 
 ## relate command
 cd ~/confluent-3.2.0/
@@ -32,7 +35,8 @@ cd /Users/bang/hbase-1.4.3
 ./bin/start-hbase.sh
 ## use own zookeeper wich client port is setted 2182 to avoid conficts with Kafka zookeeper
 ## : ./bin/hbase shell
-## list; create 't1','f1';
+## list; create 't1','f1'; scan 'gmv';
+## care hbase conflict with hive
 
 # start hive
 ## start haoop first

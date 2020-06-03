@@ -9,6 +9,10 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+
 
 public class TestHbase {
     public static void main(String[] args) throws Exception {
@@ -31,11 +35,11 @@ public class TestHbase {
         put1.addColumn("f1".getBytes(), "country_name_cn".getBytes(), "美国".getBytes());
         put1.addColumn("f1".getBytes(), "currency".getBytes(), "US Dollar".getBytes()) ;
         put1.addColumn("f1".getBytes(), "region_name".getBytes(), "北美洲".getBytes());
-         put1.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), "2019-08-18 19:02:00.123".getBytes());
-        put1.addColumn("f2".getBytes(), "record_timestamp9".getBytes(),  "2019-08-18 19:02:00.123456789".getBytes());
-        put1.addColumn("f2".getBytes(), "time3".getBytes(),  "19:02:00getBytes.123".getBytes());
-        put1.addColumn("f2".getBytes(), "time9".getBytes(),  "19:02:00getBytes.123456789".getBytes());
-        put1.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(1000023.1230));
+        put1.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123").getTime()));
+        put1.addColumn("f2".getBytes(), "record_timestamp9".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123456789").getTime()));
+        put1.addColumn("f2".getBytes(), "time3".getBytes(),  Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put1.addColumn("f2".getBytes(), "time9".getBytes(),   Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put1.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(new BigDecimal("900023.1230")));
 
         Put put2 = new Put("China".getBytes());
         put2.addColumn("f1".getBytes(), "country_id".getBytes(), Bytes.toBytes(2));
@@ -43,11 +47,11 @@ public class TestHbase {
         put2.addColumn("f1".getBytes(), "country_name_cn".getBytes(), "中国".getBytes());
         put2.addColumn("f1".getBytes(), "currency".getBytes(), "RMB".getBytes()) ;
         put2.addColumn("f1".getBytes(), "region_name".getBytes(), "亚洲".getBytes());
-        put2.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), "2019-08-18 19:02:00.123".getBytes());
-        put2.addColumn("f2".getBytes(), "record_timestamp9".getBytes(),  "2019-08-18 19:02:00.123456789".getBytes());
-        put2.addColumn("f2".getBytes(), "time3".getBytes(),  "19:02:00getBytes.123".getBytes());
-        put2.addColumn("f2".getBytes(), "time9".getBytes(),  "19:02:00getBytes.123456789".getBytes());
-        put2.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(900023.1230));
+        put2.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123").getTime()));
+        put2.addColumn("f2".getBytes(), "record_timestamp9".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123456789").getTime()));
+        put2.addColumn("f2".getBytes(), "time3".getBytes(),  Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put2.addColumn("f2".getBytes(), "time9".getBytes(),   Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put2.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(new BigDecimal("900023.1230")));
 
         Put put3 = new Put("Japan".getBytes());
         put3.addColumn("f1".getBytes(), "country_id".getBytes(), Bytes.toBytes(3));
@@ -55,11 +59,11 @@ public class TestHbase {
         put3.addColumn("f1".getBytes(), "country_name_cn".getBytes(), "日本".getBytes());
         put3.addColumn("f1".getBytes(), "currency".getBytes(), "YEN".getBytes()) ;
         put3.addColumn("f1".getBytes(), "region_name".getBytes(), "亚洲".getBytes());
-        put3.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), "2019-08-18 19:02:00.123".getBytes());
-        put3.addColumn("f2".getBytes(), "record_timestamp9".getBytes(),  "2019-08-18 19:02:00.123456789".getBytes());
-        put3.addColumn("f2".getBytes(), "time3".getBytes(),  "19:02:00getBytes.123".getBytes());
-        put3.addColumn("f2".getBytes(), "time9".getBytes(),  "19:02:00getBytes.123456789".getBytes());
-        put3.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(812345.1230));
+        put3.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123").getTime()));
+        put3.addColumn("f2".getBytes(), "record_timestamp9".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123456789").getTime()));
+        put3.addColumn("f2".getBytes(), "time3".getBytes(),  Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put3.addColumn("f2".getBytes(), "time9".getBytes(),   Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put3.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(new BigDecimal("900023.1230")));
 
         Put put4 = new Put("Germany".getBytes());
         put4.addColumn("f1".getBytes(), "country_id".getBytes(), Bytes.toBytes(4));
@@ -67,11 +71,11 @@ public class TestHbase {
         put4.addColumn("f1".getBytes(), "country_name_cn".getBytes(), "德国".getBytes());
         put4.addColumn("f1".getBytes(), "currency".getBytes(), "Euro".getBytes()) ;
         put4.addColumn("f1".getBytes(), "region_name".getBytes(), "欧洲".getBytes());
-        put4.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), "2019-08-18 19:02:00.123".getBytes());
-        put4.addColumn("f2".getBytes(), "record_timestamp9".getBytes(),  "2019-08-18 19:02:00.123456789".getBytes());
-        put4.addColumn("f2".getBytes(), "time3".getBytes(),  "19:02:00getBytes.123".getBytes());
-        put4.addColumn("f2".getBytes(), "time9".getBytes(),  "19:02:00getBytes.123456789".getBytes());
-        put4.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(9123456.1230));
+        put4.addColumn("f2".getBytes(), "record_timestamp3".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123").getTime()));
+        put4.addColumn("f2".getBytes(), "record_timestamp9".getBytes(), Bytes.toBytes(Timestamp.valueOf("2019-08-18 19:02:00.123456789").getTime()));
+        put4.addColumn("f2".getBytes(), "time3".getBytes(),  Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put4.addColumn("f2".getBytes(), "time9".getBytes(),   Bytes.toBytes(Time.valueOf("19:02:00").getTime()));
+        put4.addColumn("f2".getBytes(), "gdp".getBytes(), Bytes.toBytes(new BigDecimal("900023.1230")));
 
         table.put(put1);
         table.put(put2);

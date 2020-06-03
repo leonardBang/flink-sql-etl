@@ -19,17 +19,17 @@ public class KafkaGenerator {
         kafkaProperties.put(ProducerConfig.BATCH_SIZE_CONFIG, "163840");
         kafkaProperties.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, "100000");
 
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JsonCurrencySender.sendMessage(kafkaProperties, 1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread1.start();
+//        Thread thread1 = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    JsonCurrencySender.sendMessage(kafkaProperties, 1);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//        thread1.start();
 
         Thread thread2 = new Thread(new Runnable() {
             @Override
