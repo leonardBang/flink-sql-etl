@@ -21,19 +21,21 @@ public class TestJdbc {
                 "  rate DOUBLE,\n" +
                 "  currency_time TIMESTAMP(3),\n" +
                 "  country STRING,\n" +
-                "  timestamp9 TIMESTAMP(3),\n" +
+                "  timestamp9 TIMESTAMP(6),\n" +
                 "  time9 TIME(3),\n" +
-                "  gdp DECIMAL(38, 18)\n" +
+                "  gdp DECIMAL(10, 6)\n" +
                 ") WITH (\n" +
-                "   'connector.type' = 'jdbc',\n" +
-                "   'connector.url' = 'jdbc:mysql://localhost:3306/test',\n" +
-                "   'connector.username' = 'root'," +
-                "   'connector.table' = 'currency',\n" +
-                "   'connector.driver' = 'com.mysql.jdbc.Driver',\n" +
-                "   'connector.lookup.cache.max-rows' = '500', \n" +
-                "   'connector.lookup.cache.ttl' = '10s',\n" +
-                "   'connector.lookup.max-retries' = '3'" +
+                "   'connector' = 'jdbc',\n" +
+                "   'url' = 'jdbc:mysql://localhost:3306/test',\n" +
+                "   'username' = 'root'," +
+                "   'password' = ''," +
+                "   'table-name' = 'currency',\n" +
+                "   'driver' = 'com.mysql.jdbc.Driver',\n" +
+                "   'lookup.cache.max-rows' = '500', \n" +
+                "   'lookup.cache.ttl' = '10s',\n" +
+                "   'lookup.max-retries' = '3'" +
                 ")";
+        System.out.println(mysqlCurrencyDDL);
 
         tableEnvironment.sqlUpdate(mysqlCurrencyDDL);
 
@@ -41,7 +43,7 @@ public class TestJdbc {
         String querySQL = "select * from currency" ;
 
         tableEnvironment.toAppendStream(tableEnvironment.sqlQuery(querySQL), Row.class).print();
-
-        tableEnvironment.execute("KafkaJoinJdbc2Jdbc");
+        env.execute();
+//        tableEnvironment.execute("KafkaJoinJdbc2Jdbc");
     }
 }
