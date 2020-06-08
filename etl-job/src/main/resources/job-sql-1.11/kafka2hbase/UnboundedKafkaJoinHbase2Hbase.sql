@@ -66,7 +66,16 @@ CREATE TABLE gmv (
  from orders as o
  left outer join currency FOR SYSTEM_TIME AS OF o.proc_time c
  on o.currency = c.currency_name
- left outer join country FOR SYSTEM_TIME AS OF o.proc_time co
- on c.country = co.rowkey
+--  see FLINK-18072
+--  left outer join country FOR SYSTEM_TIME AS OF o.proc_time co
+--  on c.country = co.rowkey
 ) a group by rowkey
 
+-- result in hbase:
+--  2020-06-08 18:12:53.061_Apple_\xE4\xBA\ column=f1:item, timestamp=1591611172859, value=Apple
+--  xBA\xE6\xB0\x91\xE5\xB8\x81
+--  2020-06-08 18:12:53.061_Apple_\xE4\xBA\ column=f1:log_ts, timestamp=1591611172859, value=2020-06-08 18:12:53.061
+--  xBA\xE6\xB0\x91\xE5\xB8\x81
+-- 52 row(s) in 0.0280 seconds
+--
+-- hbase(main):026:0> scan 'gmv'
