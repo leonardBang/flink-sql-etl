@@ -59,6 +59,8 @@ CREATE TABLE gmv (
     'sink.buffer-flush.max-rows' = '1000',
     'sink.buffer-flush.interval' = '2s' );
 
+
+
  insert into gmv
  select  rowkey, ROW(max(ts), max(item), max(country_name)) as f1
  from (select concat(cast(o.ts as VARCHAR), '_', item, '_', co.f1.country_name) as rowkey,
@@ -71,6 +73,22 @@ CREATE TABLE gmv (
 --  on c.country = co.rowkey
 ) a group by rowkey
 
+
+insert into gmv
+select  rowkey, ROW(ts), max(item), max(country_name)) as f1 from
+select concat(cast(o.ts as VARCHAR), '_', item, '_', co.f1.country_name) as rowkey,
+             cast(o.ts as VARCHAR) as ts, o.item as item, co.f1.country_name as country_name
+      from orders as o
+               left outer join currency FOR SYSTEM_TIME AS OF o.proc_time c
+      on o.currency = c.currency_name
+
+
+--  see FLINK-18072
+--  left outer join country FOR SYSTEM_TIME AS OF o.proc_time co
+--  on c.country = co.rowkey
+     ) a group by rowkey
+
+--
 -- result in hbase:
 --  2020-06-08 18:12:53.061_Apple_\xE4\xBA\ column=f1:item, timestamp=1591611172859, value=Apple
 --  xBA\xE6\xB0\x91\xE5\xB8\x81

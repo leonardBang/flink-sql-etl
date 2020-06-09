@@ -137,6 +137,12 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.48</version>
         </dependency>
+        <!-- pg catalog need pg driver denpendency -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.9</version>
+        </dependency>
 <!--           elasticsearch connector-->
 <!--        <dependency>-->
 <!--            <groupId>org.apache.flink</groupId>-->
