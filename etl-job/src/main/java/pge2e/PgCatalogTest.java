@@ -21,7 +21,7 @@ package pge2e;
 import org.apache.flink.connector.jdbc.catalog.JdbcCatalog;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.TableEnvironment;
-import org.apache.flink.table.api.TableResult;
+import org.apache.flink.table.catalog.ObjectPath;
 
 import java.util.Arrays;
 
@@ -42,13 +42,18 @@ public class PgCatalogTest {
         // set the JdbcCatalog as the current catalog of the session
         tableEnv.useCatalog("mypg");
 
+        System.out.println(tableEnv.getCatalog("mypg").get().databaseExists("mydb"));
+        System.out.println(tableEnv.getCatalog("mypg").get().tableExists(new ObjectPath("mydb","public.primitive_arr_table")));
+
         Arrays.stream(tableEnv.listDatabases()).forEach(System.out::println);
 
         Arrays.stream(tableEnv.listTables()).forEach(System.out::println);
 
         tableEnv.executeSql("select * from `public.primitive_arr_table`").print();
-//        postgres
-//mydb
+// true
+// true
+// postgres
+// mydb
 //bang.primitive_table
 //public.primitive_arr_table
 //public.primitive_serial_table
