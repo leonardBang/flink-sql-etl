@@ -167,6 +167,11 @@
 <!--        </dependency>-->
         <!--   hbase connector     -->
         <dependency>
+        <groupId>org.apache.flink</groupId>
+        <artifactId>flink-sql-connector-hbase_${scala.binary.version}</artifactId>
+        <version>${flink.version}</version>
+    </dependency>
+        <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-hbase_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>

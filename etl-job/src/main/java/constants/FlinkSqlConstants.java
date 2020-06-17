@@ -155,7 +155,7 @@ public class FlinkSqlConstants {
         "    'connector' = 'hbase-1.4',\n" +
         "    'table-name' = 'country',\n" +
         "    'zookeeper.quorum' = 'localhost:2182',\n" +
-        "    'zookeeper.znode-parent' = '/hbase' " +
+        "    'zookeeper.znode.parent' = '/hbase' " +
         ")";
 
 }

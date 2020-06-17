@@ -34,7 +34,7 @@ public class UnboundedKafkaJoinHbase2Hbase {
                 "    'connector' = 'hbase-1.4',\n" +
                 "    'table-name' = 'gmv',\n" +
                 "    'zookeeper.quorum' = 'localhost:2182',\n" +
-                "    'zookeeper.znode-parent' = '/hbase',\n" +
+                "    'zookeeper.znode.parent' = '/hbase',\n" +
                 "    'sink.buffer-flush.max-size' = '10mb', \n" +
                 "    'sink.buffer-flush.max-rows' = '1000',  \n" +
                 "    'sink.buffer-flush.interval' = '2s' " +
