@@ -9,7 +9,7 @@ CREATE TABLE orders (
   WATERMARK FOR order_time AS order_time
 ) WITH (
   'connector' = 'kafka',
-  'topic' = 'flink_orders2',
+  'topic' = 'flink_orders3',
   'properties.zookeeper.connect' = 'localhost:2181',
   'properties.bootstrap.servers' = 'localhost:9092',
   'properties.group.id' = 'testGroup3',

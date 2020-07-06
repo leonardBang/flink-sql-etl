@@ -34,10 +34,11 @@ public class TestCsv2Csv1 {
                 " 'connector.path' = '/Users/bang/sourcecode/project/Improve/flinkstream/src/main/resources/test1.csv',\n" +
                 " 'format.type' = 'csv'" +
                 ")";
+
         tableEnvironment.sqlUpdate(csvSourceDDL);
         tableEnvironment.toAppendStream(tableEnvironment.sqlQuery("select f5c1, f5c2 from csv"), Row.class).print();
 
-        tableEnvironment.execute("csvTest");
+        executionEnvironment.execute("csvTest");
 
     }
 

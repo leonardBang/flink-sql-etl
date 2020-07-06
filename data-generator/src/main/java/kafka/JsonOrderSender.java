@@ -24,7 +24,7 @@ public class JsonOrderSender {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Random random = new Random();
     private static final SendCallBack sendCallBack = new SendCallBack();
-    private static final String topicName = "flink_orders2";
+    private static final String topicName = "flink_orders3";
     private static final List<String> currencies = initCurrencies();
     private static final List<String> itemNames = initItemNames();
 
@@ -40,7 +40,7 @@ public class JsonOrderSender {
                 map.put("currency", currencies.get(j % currencies.size()));
                 map.put("amount", j % 100 / 100.0);
                 Long time = System.currentTimeMillis();
-                DateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                DateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 Date date = new Date(time);
                 String jsonSchemaDate = dateFormat.format(date);
                 map.put("order_time", jsonSchemaDate);

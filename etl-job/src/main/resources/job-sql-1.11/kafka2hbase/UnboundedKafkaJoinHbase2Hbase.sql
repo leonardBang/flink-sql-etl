@@ -47,7 +47,7 @@ CREATE TABLE country (
     'zookeeper.quorum' = 'localhost:2182',
     'zookeeper.znode.parent' = '/hbase' );
 
-CREATE TABLE gmv (
+CREATE TABLE gmv1 (
   rowkey VARCHAR,
   f1 ROW<log_ts VARCHAR,item VARCHAR,country_name VARCHAR>
 ) WITH (
@@ -61,7 +61,7 @@ CREATE TABLE gmv (
 
 
 
- insert into gmv
+ insert into gmv1
  select  rowkey, ROW(max(ts), max(item), max(country_name)) as f1
  from (select concat(cast(o.ts as VARCHAR), '_', item, '_', co.f1.country_name) as rowkey,
  cast(o.ts as VARCHAR) as ts, o.item as item, co.f1.country_name as country_name
