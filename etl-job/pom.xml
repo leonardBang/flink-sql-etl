@@ -133,11 +133,11 @@
 <!--        </dependency>-->
 
         <!--  jdbc connector -->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-jdbc_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-connector-jdbc_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -155,11 +155,11 @@
 <!--            <artifactId>flink-sql-connector-elasticsearch6_${scala.binary.version}</artifactId>-->
 <!--            <version>${flink.version}</version>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-sql-connector-elasticsearch7_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-sql-connector-elasticsearch7_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
 <!--        <dependency>-->
 <!--            <groupId>org.apache.flink</groupId>-->
 <!--            <artifactId>flink-connector-elasticsearch7_${scala.binary.version}</artifactId>-->
@@ -172,32 +172,32 @@
 <!--            <version>2.12.1</version>-->
 <!--        </dependency>-->
         <!--   hbase connector     -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>2.8.5</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.hadoop</groupId>-->
+<!--            <artifactId>hadoop-client</artifactId>-->
+<!--            <version>2.8.5</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-yarn-tests</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
-        <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-sql-connector-hbase_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
-    </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-yarn-tests</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--        <groupId>org.apache.flink</groupId>-->
+<!--        <artifactId>flink-sql-connector-hbase_${scala.binary.version}</artifactId>-->
+<!--        <version>${flink.version}</version>-->
+<!--    </dependency>-->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-python_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-connector-hbase_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-connector-hbase_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>

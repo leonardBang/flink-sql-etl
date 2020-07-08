@@ -3,8 +3,8 @@ cd /Users/bang/kafka_2.11-0.10.2.0
 ./bin/zookeeper-server-start.sh -daemon ./config/zookeeper.properties
 ./bin/kafka-server-start.sh -daemon ./config/server.properties
 #optional
-./bin/kafka-topics.sh --create --topic json-test --zookeeper localhost:2181 --partitions 1 --replication-factor 1
-./bin/kafka-console-producer.sh --topic json-test --broker-list localhost:9092
+./bin/kafka-topics.sh --create --topic mysource --zookeeper localhost:2181 --partitions 1 --replication-factor 1
+./bin/kafka-console-producer.sh --topic mysource --broker-list localhost:9092
 
 ## relate command
 cd ~/confluent-3.2.0/
