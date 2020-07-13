@@ -19,6 +19,7 @@
     <modules>
         <module>data-generator</module>
         <module>etl-job</module>
+        <module>sql-avro</module>
     </modules>
 
     <dependencies>
