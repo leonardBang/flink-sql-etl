@@ -17,9 +17,9 @@ CREATE TABLE es_table (
   clkCnt int
 ) WITH (
 'connector.type' = 'elasticsearch',
-'connector.version' = '7',
+'connector.version' = '6',
 'connector.hosts' = 'http://localhost:9200',
-'connector.index' = 'cli_test',
+'connector.index' = '66_test',
 'connector.document-type' = '_doc',
 'update-mode' = 'upsert',
 'connector.key-delimiter' = '$',
