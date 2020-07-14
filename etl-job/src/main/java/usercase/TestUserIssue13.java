@@ -18,39 +18,36 @@
 
 package usercase;
 
+import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
+import org.apache.flink.util.CloseableIterator;
+
+import static org.apache.flink.configuration.CheckpointingOptions.CHECKPOINTS_DIRECTORY;
 
 public class TestUserIssue13 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(environment);
+        environment.setStateBackend(new FsStateBackend(""));
+        tableEnvironment.getConfig().getConfiguration().set(CHECKPOINTS_DIRECTORY, "your-cp-path");
         environment.setParallelism(1);
 
-        tableEnvironment.executeSql("create table csv( pageId VARCHAR, eventId VARCHAR, recvTime VARCHAR) with ( 'connector' = 'filesystem',\n" +
-            " 'path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user3.csv',\n" +
-            " 'format' = 'csv')");
-        tableEnvironment.executeSql("CREATE TABLE es_table (\n" +
-            "  aggId varchar ,\n" +
-            "  pageId varchar ,\n" +
-            "  ts varchar ,\n" +
-            "  expoCnt int ,\n" +
-            "  clkCnt int\n" +
-            ") WITH (\n" +
-            "'connector' = 'elasticsearch-6',\n" +
-            "'hosts' = 'http://localhost:9200',\n" +
-            "'index' = 'usercase111',\n" +
-            "'document-type' = '_doc',\n" +
-            "'document-id.key-delimiter' = '$',\n" +
-            "'sink.bulk-flush.interval' = '1000',\n" +
-            "'format' = 'json'\n" +
-            ")");
-        Table res = tableEnvironment.sqlQuery(" SELECT  pageId,eventId,cast(recvTime as varchar) as ts, 1, 1 from csv");
-        TableResult tableResult = res.executeInsert("es_table");
-        tableResult.getJobClient().get();
-
-
+        tableEnvironment.executeSql("create table jsonT ( " +
+            "        `monitorId` STRING,\n" +
+            "        `deviceId` STRING,\n" +
+            "        `state` INT,\n" +
+            "        `time_st` TIMESTAMP(3),\n" +
+            "        WATERMARK FOR time_st AS time_st - INTERVAL '2' SECOND,\n" +
+            "        `data` DOUBLE) with ( 'connector' = 'filesystem',\n" +
+            "       'path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user4.json',\n" +
+            "       'format' = 'json')");
+        CloseableIterator<Row> tableResult = tableEnvironment.executeSql(" SELECT  * from jsonT").collect();
+        while(tableResult.hasNext()) {
+            System.out.println(tableResult.next());
+        }
     }
 }
