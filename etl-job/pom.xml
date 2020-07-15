@@ -31,11 +31,11 @@
             <version>${flink.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-table-planner_${scala.binary.version}</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--        </dependency>-->
 
         <!-- 1.11 need this！  -->
         <dependency>
@@ -67,6 +67,11 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-csv</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-parquet_2.11</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
@@ -183,11 +188,6 @@
             <artifactId>flink-yarn-tests</artifactId>
             <version>${flink.version}</version>
         </dependency>
-        <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-sql-connector-hbase_${scala.binary.version}</artifactId>
-        <version>${flink.version}</version>
-    </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-python_${scala.binary.version}</artifactId>
