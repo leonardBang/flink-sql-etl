@@ -49,7 +49,7 @@ public class TestUserIssue15 {
             "store_phone VARCHAR,\n" +
             "store_fax VARCHAR,\n" +
             "first_opened_date TIMESTAMP,\n" +
-            "last_remodel_date TIMESTAMP,\n" +
+            "last_remodel_date DATE,\n" +
             "store_sqft INT,\n" +
             "grocery_sqft INT,\n" +
             "frozen_sqft INT,\n" +
