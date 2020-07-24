@@ -32,11 +32,18 @@ public class TestUserIssue13 {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment environment = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tableEnvironment = StreamTableEnvironment.create(environment);
-        environment.setStateBackend(new FsStateBackend(""));
-        tableEnvironment.getConfig().getConfiguration().set(CHECKPOINTS_DIRECTORY, "your-cp-path");
         environment.setParallelism(1);
 
         tableEnvironment.executeSql("create table jsonT ( " +
+            "        `monitorId` STRING,\n" +
+            "        `deviceId` STRING,\n" +
+            "        `state` INT,\n" +
+            "        `time_st` TIMESTAMP(3),\n" +
+            "        WATERMARK FOR time_st AS time_st - INTERVAL '2' SECOND,\n" +
+            "        `data` DOUBLE) with ( 'connector' = 'filesystem',\n" +
+            "       'path' = '/Users/bang/sourcecode/project/flink-sql-etl/data-generator/src/main/resources/user4.json',\n" +
+            "       'format' = 'json')");
+        System.out.println("create table jsonT ( " +
             "        `monitorId` STRING,\n" +
             "        `deviceId` STRING,\n" +
             "        `state` INT,\n" +

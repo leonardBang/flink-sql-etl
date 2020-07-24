@@ -1,3 +1,3 @@
-{"monitorId": 789, "deviceId": "abcd", "data": 144.0, "state": 2, "time_st": "2020-07-14 15:15:19.600000"}
-{"monitorId": 788, "deviceId": "abcd", "data": 144.0, "state": 2, "time_st": "2020-07-14 15:15:11.600000"}
-{"monitorId": 7887, "deviceId": "양현마을", "data": 144.0, "state": 2, "time_st": "2020-07-14 15:15:11.600000"}
+{"monitorId": 789, "deviceId": "abcd", "data": 144.0, "state": 2, "time_st": "2020-07-14T15:15:19.600000"}
+{"monitorId": 788, "deviceId": "abcd", "data": 144.0, "state": 2, "time_st": "2020-07-14T15:15:11.600000"}
+{"monitorId": 7887, "deviceId": "양현마을", "data": 144.0, "state": 2, "time_st": "2020-07-14T15:15:11.600000"}
