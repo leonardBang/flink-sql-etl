@@ -2,7 +2,7 @@
 ## 1. Flink standalone 环境准备（基于 Flink 1.11.1 版本）
 
 (a) 下载 flink 安装包
-* Flink 安装包: https:://mirror.bit.edu.cn/apache/flink/flink-1.11.1/flink-1.11.1-bin-scala_2.11.tgz
+* Flink 安装包: https://mirror.bit.edu.cn/apache/flink/flink-1.11.1/flink-1.11.1-bin-scala_2.11.tgz
 
  (b) 下载 JDBC connector 相关 jar
 * JDBC connector jar: https://repo.maven.apache.org/maven2/org/apache/flink/flink-connector-jdbc_2.11/1.11.1/flink-connector-jdbc_2.11-1.11.1.jar
