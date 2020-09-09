@@ -18,15 +18,12 @@
 
 package usercase;
 
-import org.apache.flink.api.common.typeinfo.TypeInformation;
-import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.catalog.DataTypeFactory;
 import org.apache.flink.table.functions.ScalarFunction;
 import org.apache.flink.table.types.inference.TypeInference;
-import org.apache.flink.types.Row;
-import org.apache.flink.util.CloseableIterator;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -40,7 +37,7 @@ public class TestUserIssue17 {
 
         tableEnvironment.executeSql("CREATE TABLE orders (\n" +
             "  order_number INT,\n" +
-            "  order_date INT,\n" +
+            "  order_date INT NULL,\n" +
             "  purchaser INT,\n" +
             "  quantity INT,\n" +
             "  product_id INT\n" +
@@ -68,8 +65,9 @@ public class TestUserIssue17 {
             "    'table-name' = 'orders2',\n" +
             "    'driver' = 'com.mysql.jdbc.Driver')");
         tableEnvironment.registerFunction("int2Date", new Int2DateFunc());
-       tableEnvironment.executeSql("insert into orders1 SELECT  order_number, int2Date(order_date),purchaser,quantity,product_id from orders ").getJobClient().get()
-       .getJobExecutionResult(Thread.currentThread().getContextClassLoader()).get();
+        TableResult result = tableEnvironment.executeSql("insert into orders1 SELECT  order_number, int2Date(order_date),purchaser,quantity,product_id from orders ");
+        result.getJobClient().get()
+            .getJobExecutionResult(Thread.currentThread().getContextClassLoader()).get();
     }
 
     public static class Int2DateFunc extends ScalarFunction {
