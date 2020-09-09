@@ -9,8 +9,8 @@
 * MySQL driver jar： https://repo.maven.apache.org/maven2/mysql/mysql-connector-java/5.1.48/mysql-connector-java-5.1.48.jar
 * PostgreSQL driver jar: https://jdbc.postgresql.org/download/postgresql-42.2.14.jar
  
- (c) 下载 Kafak connector 相关 jar
-* Kafak connector jar: https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.11.1/flink-sql-connector-kafka_2.11-1.11.1.jar
+ (c) 下载 Kafka connector 相关 jar
+* Kafka connector jar: https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka_2.11/1.11.1/flink-sql-connector-kafka_2.11-1.11.1.jar
 
 ## 2. 测试数据准备
 
