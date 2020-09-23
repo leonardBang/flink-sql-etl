@@ -4,14 +4,14 @@ cat ~/sourcecode/project/flink-1.11/flink/flink-formats/flink-json/src/test/reso
 bin/kafka-console-consumer.sh --topic product_binlog --bootstrap-server localhost:9092 --from-beginning
 
 // test write to hbase
-CREATE TABLE product_binlog (
+CREATE TABLE product_binlog1 (
   id INT NOT NULL,
   name STRING,
   description STRING,
   weight DECIMAL(10,3)
  ) WITH (
   'connector' = 'kafka',
-  'topic' = 'product_binlog',
+  'topic' = 'product_binlog1',
   'properties.bootstrap.servers' = 'localhost:9092',
   'scan.startup.mode' = 'earliest-offset',
   'format' = 'debezium-json'
@@ -23,10 +23,10 @@ CREATE TABLE product_binlog (
  ) WITH (
     'connector' = 'hbase-2.2',
     'table-name' = 'product1',
-    'zookeeper.quorum' = 'localhost:2181',
+    'zookeeper.quorum' = 'localhost:2182',
     'zookeeper.znode.parent' = '/hbase',
     'sink.buffer-flush.max-size' = '10mb',
     'sink.buffer-flush.max-rows' = '1000',
     'sink.buffer-flush.interval' = '2s' );
 
-insert into hbase_product select id, ROW(name,description) from product_binlog;
+insert into hbase_product select id, ROW(name,description) from product_binlog1;

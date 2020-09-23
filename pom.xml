@@ -6,7 +6,7 @@
 
     <!-- global properties -->
     <properties>
-        <flink.version>1.11.1</flink.version>
+        <flink.version>1.12-SNAPSHOT</flink.version>
         <scala.binary.version>2.11</scala.binary.version>
         <hadoop.version>2.8.3</hadoop.version>
         <hive.version>3.1.0</hive.version>
