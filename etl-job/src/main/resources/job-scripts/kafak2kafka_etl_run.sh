@@ -21,7 +21,9 @@ cd /Users/bang/hadoop-2.8.5/sbin
 ./start-yarn.sh
 
 # start mysql
-cd /usr/local/opt/mysql/bin/mysqld
+/usr/local/opt/mysql/support-files/mysql.server start
+# stop mysql
+/usr/local/opt/mysql/support-files/mysql.server stop
 
 # start es
 cd /Users/bang/elasticsearch-6.3.1
@@ -44,7 +46,7 @@ cd /Users/bang/hbase-1.4.3
 ./start-yarn.sh
 ## start mysql(metastore)
 cd /Users/bang/hive-3.1.2
-## init hive schema
+## init hive schema (only requiired intialization once)
 bin/schematool -initSchema -dbType mysql
 bin/hive
 ## start metastore service
