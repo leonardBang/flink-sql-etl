@@ -1,3 +1,7 @@
+# Flink JDBC DEMO
+
+*JDBC Catalog* *JDBC CDC format*  *JDBC Dialect*
+
 
 ## 1. Flink standalone 环境准备（基于 Flink 1.11.1 版本）
 
@@ -160,4 +164,3 @@
       （2） 用户再次下单：
        insert into orders (order_date, purchaser, quantity, product_id) values ('2020-07-30', 1001, 5, 106);
       
-
