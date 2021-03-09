@@ -1,6 +1,7 @@
-# Flink Temporal Join Versioned Table DEMO
+# Flink Temporal Join Versioned Table Demo
 
-*Temporal Join* *Versioned Table*  *mysql-cdc*
+
+* Keyword: [**Temporal Join**, **Versioned Table**,  **mysql-cdc**]
 
 
 ## 1. Flink standalone 环境准备（基于 Flink 1.12.2 版本）
@@ -157,11 +158,15 @@ INSERT INTO demo_orders(order_date, order_time,quantity, product_id, purchaser) 
 
 (a) 新增订单 & 修改订单 
     
-    (1) 新增订单：
+    (1) 新增订单
     docker-compose -f temporal-join-versioned-table.yaml exec mysql bash -c 'mysql -u $MYSQL_USER -p$MYSQL_PASSWORD inventory'
     
+    mysql> INSERT INTO demo_products(product_name,price,currency) values ('test_product', 1000, 'RMB'); -- 前进维表流 watermark
     mysql> INSERT INTO demo_orders(order_date, order_time,quantity, product_id, purchaser) values 
-    ('2021-03-08', '2021-03-08 09:00:00.000', 30, 501, 'flink');
+    ('2021-03-08', '2021-03-09 10:13:00.000', 1, 503, 'flink');
+        mysql> INSERT INTO demo_orders(order_date, order_time,quantity, product_id, purchaser) values 
+        ('2021-03-08', '2021-03-09 10:15:00.000', 1, 503, 'flink');
+    mysql> INSERT INTO demo_products(product_name,price,currency) values ('test_product', 1000, 'RMB'); -- 前进维表流 watermark  
     
     Flink SQL> 
                SELECT o.order_id, o.order_date, o.order_time, o.quantity, o.purchaser, p.product_id,
@@ -173,14 +178,14 @@ INSERT INTO demo_orders(order_date, order_time,quantity, product_id, purchaser) 
     
     (2) 修改订单：
     mysql> UPDATE demo_orders set quantity = 100 where order_id = 1001;
-    
+    mysql> INSERT INTO demo_products(product_name,price,currency) values ('test_product', 1000, 'RMB'); -- 前进维表流 watermark
+
     Flink SQL> 
                SELECT o.order_id, o.order_date, o.order_time, o.quantity, o.purchaser, p.product_id,
                    p.product_name, p.update_time, p.price, p.currency, p.price * o.quantity as total_price  
                FROM demoOrders as o 
                LEFT JOIN demoProducts FOR SYSTEM_TIME AS OF o.order_time p 
                ON o.product_id = p.product_id;
-
 
 (b) 关联不同版本的维表
   

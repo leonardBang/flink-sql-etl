@@ -1,7 +1,6 @@
-# Flink JDBC DEMO
+# Flink JDBC Demo
 
-*JDBC Catalog* *JDBC CDC format*  *JDBC Dialect*
-
+* Keyword: [**JDBC Catalog**, **CDC Format**,  **JDBC Dialect**]
 
 ## 1. Flink standalone 环境准备（基于 Flink 1.11.1 版本）
 
