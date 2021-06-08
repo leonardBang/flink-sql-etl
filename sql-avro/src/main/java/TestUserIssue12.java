@@ -76,6 +76,6 @@ public class TestUserIssue12 {
             ")";
         tableEnvironment.executeSql(csvSourceDDL);
         tableEnvironment.executeSql(csvSink);
-        tableEnvironment.executeSql("insert into csvSink select * from csv").getJobClient().get().getJobExecutionResult(Thread.currentThread().getContextClassLoader()).get();
+        tableEnvironment.executeSql("insert into csvSink select * from csv").await();
     }
 }
